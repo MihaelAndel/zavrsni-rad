@@ -9,5 +9,8 @@
 		"heroku-postbuild": "cd klijent && npm install && npm run build"
 	},
 	"author": "Mihael Anđel",
-	"license": "ISC"
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.17.1"
+	}
 }
