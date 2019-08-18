@@ -12,24 +12,31 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'klijent/build')));
 
 app.get('/api/nekaj', (request, response) => {
-	baza.Spoji(() => {
-		baza.Upit('SELECT * FROM TipOsobe', (result, error) => {
-			response.json(result);
-			baza.Prekini();
-		});
+	baza.Upit('SELECT * FROM TipOsobe', (result, error) => {
+		response.json(result);
 	});
 });
 
 app.post('/api/registriraj', (request, response) => {
-	console.log(request.body);
-	response.send('ok');
+	var korisnickoIme = request.body.korisnickoIme;
+	var email = request.body.email;
+	registracija.RegistrirajKorisnika(email, korisnickoIme, poruka => {
+		response.send(poruka);
+	});
 });
 
 app.get('/api/provjeriEmail', (request, response) => {
-	var email = request.body.email;
-	registracija.ProvjeriEmail(email, (postoji) => {
+	var email = request.query.email;
+	registracija.ProvjeriEmail(email, postoji => {
 		response.send(postoji);
-	})
+	});
+});
+
+app.get('/api/provjeriKorisnika', (request, response) => {
+	var korisnik = request.query.korisnik;
+	registracija.ProvjeriKorisnika(korisnik, postoji => {
+		response.send(postoji);
+	});
 });
 
 app.get('*', (request, response) => {

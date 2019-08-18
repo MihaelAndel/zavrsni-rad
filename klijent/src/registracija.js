@@ -75,26 +75,52 @@ class Registracija extends React.Component {
 	}
 
 	ProvjeriKorisnickoIme(e) {
+		this.setState({
+			greskaKorisnickoIme: true
+		});
 		var korIme = e.target.value;
 		var tocno = korIme.length > 3 && korIme.length < 11;
 
-		this.setState({
-			korisnickoIme: tocno ? korIme : '',
-			greskaKorisnickoIme: !tocno
-		});
+		if (tocno) {
+			axios
+				.get(`/api/provjeriKorisnika?korisnik=${korIme}`)
+				.then(response => {
+					tocno = response.data ? true : false;
+					this.setState({
+						korisnickoIme: tocno ? korIme : '',
+						greskaKorisnickoIme: !tocno
+					});
+				});
+		} else {
+			this.setState({
+				korisnickoIme: tocno ? korIme : '',
+				greskaKorisnickoIme: !tocno
+			});
+		}
 	}
 
 	ProvjeriEmail(e) {
+		this.setState({
+			greskaEmail: true
+		});
 		var emailInput = e.target.value;
-		var regex = /^\w+@\w+.$/;
+		var regex = /^\w+@\w+\.\w{2,3}$/;
 		var tocno = regex.test(emailInput) && emailInput.length !== 0;
-		if(tocno){
-			axios.get(`/api/provjeriEmail?email=${emailInput}`).then((response) => {
-				tocno = response ? true : false;
-				this.setState({
-					email: tocno ? emailInput : '',
-					greskaEmail: !tocno
+
+		if (tocno) {
+			axios
+				.get(`/api/provjeriEmail?email=${emailInput}`)
+				.then(response => {
+					tocno = response.data ? true : false;
+					this.setState({
+						email: tocno ? emailInput : '',
+						greskaEmail: !tocno
+					});
 				});
+		} else {
+			this.setState({
+				email: tocno ? emailInput : '',
+				greskaEmail: !tocno
 			});
 		}
 	}

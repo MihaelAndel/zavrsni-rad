@@ -2,32 +2,20 @@ const mysql = require('mysql');
 
 var connection = null;
 
-function Spoji(callback) {
-	connection = mysql.createConnection({
-		host: 'remotemysql.com',
-		user: 'HyAcazdIoN',
-		password: 'H3DKGpv2vT',
-		database: 'HyAcazdIoN'
-	});
-	connection.connect(callback);
-}
-
-function Prekini(callback) {
-	connection.end(callback);
-}
+connection = mysql.createConnection({
+	host: 'remotemysql.com',
+	user: 'HyAcazdIoN',
+	password: 'H3DKGpv2vT',
+	database: 'HyAcazdIoN'
+});
+connection.connect();
 
 function Upit(sql, callback) {
 	connection.query(sql, function(error, result, fields) {
-		if (!error) {
-			callback(result, null);
-		} else {
-			callback(null, error);
-		}
+		callback(result, error);
 	});
 }
 
 module.exports = {
-	Spoji,
-	Prekini,
 	Upit
 };
