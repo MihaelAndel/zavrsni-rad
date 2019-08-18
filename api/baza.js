@@ -19,7 +19,7 @@ function Prekini(callback) {
 function Upit(sql, callback) {
 	connection.query(sql, function(error, result, fields) {
 		if (!error) {
-			callback(result);
+			callback(result, null);
 		} else {
 			callback(null, error);
 		}

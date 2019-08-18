@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import './App.css';
+import { CLIENT_RENEG_LIMIT } from 'tls';
 
 class Registracija extends React.Component {
 	constructor(props) {
@@ -85,12 +86,17 @@ class Registracija extends React.Component {
 
 	ProvjeriEmail(e) {
 		var emailInput = e.target.value;
-		var regex = /^\w+@\w+$/;
+		var regex = /^\w+@\w+.$/;
 		var tocno = regex.test(emailInput) && emailInput.length !== 0;
-		this.setState({
-			email: tocno ? emailInput : '',
-			greskaEmail: !tocno
-		});
+		if(tocno){
+			axios.get(`/api/provjeriEmail?email=${emailInput}`).then((response) => {
+				tocno = response ? true : false;
+				this.setState({
+					email: tocno ? emailInput : '',
+					greskaEmail: !tocno
+				});
+			});
+		}
 	}
 }
 

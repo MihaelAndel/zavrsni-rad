@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const baza = require('./api/baza');
+const registracija = require('./api/registracija');
 
 const app = express();
 
@@ -22,6 +23,13 @@ app.get('/api/nekaj', (request, response) => {
 app.post('/api/registriraj', (request, response) => {
 	console.log(request.body);
 	response.send('ok');
+});
+
+app.get('/api/provjeriEmail', (request, response) => {
+	var email = request.body.email;
+	registracija.ProvjeriEmail(email, (postoji) => {
+		response.send(postoji);
+	})
 });
 
 app.get('*', (request, response) => {
