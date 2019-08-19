@@ -4,6 +4,7 @@ const cors = require('cors');
 const baza = require('./api/baza');
 const registracija = require('./api/registracija');
 const prijava = require('./api/prijava');
+const mail = require('./api/slanje-poste');
 
 const app = express();
 
@@ -22,7 +23,7 @@ app.post('/api/registriraj', (request, response) => {
 	var korisnickoIme = request.body.korisnickoIme;
 	var email = request.body.email;
 	registracija.RegistrirajKorisnika(email, korisnickoIme, poruka => {
-		response.send(poruka);
+		response.json(poruka);
 	});
 });
 

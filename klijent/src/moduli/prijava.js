@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Poruka from './poruka';
 import Cookies from 'js-cookie';
 import '../App.css';
 import { runInThisContext } from 'vm';
@@ -17,7 +18,7 @@ class Prijava extends React.Component {
 			lozinka: '',
 			greskaKorisnickoIme: true,
 			greskaLozinka: true,
-			poruka: false
+			poruka: ''
 		};
 	}
 
@@ -27,11 +28,13 @@ class Prijava extends React.Component {
 			this.state.greskaKorisnickoIme || this.state.greskaLozinka
 				? 'disabled'
 				: '';
+		var poruka = this.state.poruka;
 		return (
 			<div
 				className="prijava"
 				onMouseEnter={this.PodesiVidljivost}
 				onMouseLeave={this.PodesiVidljivost}>
+				<Poruka poruka={poruka} />
 				<p>Prijava</p>
 				<div className={klasa}>
 					<form>
@@ -39,15 +42,17 @@ class Prijava extends React.Component {
 							type="text"
 							placeholder="Korisničko ime"
 							onChange={this.ProvjeriKorisnickoIme}
+							value={this.state.korisnickoIme}
 						/>
 						<input
 							type="password"
 							placeholder="Lozinka"
 							onChange={this.ProvjeriLozinku}
+							value={this.state.lozinka}
 						/>
 						<input
 							type="submit"
-							value="Prijava"
+							value="Prijavi se"
 							onClick={this.PrijaviKorisnika}
 							disabled={ukljucen}
 						/>
@@ -78,6 +83,12 @@ class Prijava extends React.Component {
 					Cookies.set('korisnik', response.data[0].kIme);
 					Cookies.set('tip', response.data[0].tid);
 					window.location.reload();
+				} else {
+					this.setState({ poruka: 'Neispravan unos!' }, function() {
+						setInterval(() => {
+							this.setState({ poruka: '' });
+						}, 2000);
+					});
 				}
 			});
 	}

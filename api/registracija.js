@@ -1,6 +1,7 @@
 const baza = require('./baza');
 const generator = require('./generiranje-lozinke');
 const md5 = require('md5');
+const mail = require('./slanje-poste');
 
 function ProvjeriEmail(email, callback) {
 	baza.Upit(
@@ -23,11 +24,17 @@ function ProvjeriKorisnika(korisnik, callback) {
 }
 
 function RegistrirajKorisnika(email, korisnik, callback) {
-	var lozinka = md5(generator.Generiraj());
+	var lozinka = generator.Generiraj();
+	var kriptiranaLozinka = md5(lozinka);
 	baza.Upit(
-		`INSERT INTO Korisnik (tipKorisnika, korisnickoIme, email, lozinka) VALUES(1, '${korisnik}', '${email}', '${lozinka}')`,
+		`INSERT INTO Korisnik (tipKorisnika, korisnickoIme, email, lozinka) VALUES(1, '${korisnik}', '${email}', '${kriptiranaLozinka}')`,
 		(rezultat, error) => {
 			var poruka = error ? 'error' : 'ok';
+			if (!error) {
+				var naslov = 'Vaša nova lozinka';
+				var poruka = `Poštovani ${korisnik}, lozinka za Vaš novi račun je: ${lozinka}.`;
+				mail.PosaljiEmail(email, naslov, poruka);
+			}
 			callback(poruka);
 		}
 	);

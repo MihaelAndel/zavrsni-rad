@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Poruka from './poruka';
 import '../App.css';
 import { CLIENT_RENEG_LIMIT } from 'tls';
 
@@ -14,6 +15,7 @@ class Registracija extends React.Component {
 			vidljivo: false,
 			korisnickoIme: '',
 			email: '',
+			poruka: '',
 			greskaEmail: true,
 			greskaKorisnickoIme: true
 		};
@@ -25,14 +27,18 @@ class Registracija extends React.Component {
 			this.state.greskaEmail || this.state.greskaKorisnickoIme
 				? 'disabled'
 				: '';
+		var poruka = this.state.greskaRegistracije
+			? 'Dogodila se greška, pokušajte ponovo!'
+			: '';
 		return (
 			<div
 				className="registracija"
 				onMouseEnter={this.PodesiVidljivost}
 				onMouseLeave={this.PodesiVidljivost}>
+				<Poruka poruka={poruka} />
 				<p>Registracija</p>
 				<div className={klasa}>
-					<form autoComplete="off">
+					<form autoComplete="off" id="form-registracija">
 						<input
 							onInput={this.ProvjeriEmail}
 							id="emailAdresa"
@@ -59,10 +65,29 @@ class Registracija extends React.Component {
 	RegistrirajKorisnika(e) {
 		e.preventDefault();
 		if (!this.state.greskaEmail && !this.state.greskaKorisnickoIme) {
-			axios.post('/api/registriraj', {
-				email: this.state.email,
-				korisnickoIme: this.state.korisnickoIme
-			});
+			axios
+				.post('/api/registriraj', {
+					email: this.state.email,
+					korisnickoIme: this.state.korisnickoIme
+				})
+				.then(poruka => {
+					if (poruka === 'error') {
+						this.setState(
+							{ poruka: 'Greška kod registracije!' },
+							function() {
+								setInterval(() => {
+									this.setState({ poruka: '' });
+								}, 2000);
+							}
+						);
+					} else {
+						var forma = document.getElementById(
+							'form-registracija'
+						);
+						forma.reset();
+						this.setState({ email: ' ', korisnickoIme: ' ' });
+					}
+				});
 		}
 	}
 
@@ -87,13 +112,13 @@ class Registracija extends React.Component {
 				.then(response => {
 					tocno = response.data ? true : false;
 					this.setState({
-						korisnickoIme: tocno ? korIme : '',
+						korisnickoIme: korIme,
 						greskaKorisnickoIme: !tocno
 					});
 				});
 		} else {
 			this.setState({
-				korisnickoIme: tocno ? korIme : '',
+				korisnickoIme: korIme,
 				greskaKorisnickoIme: !tocno
 			});
 		}
@@ -113,13 +138,13 @@ class Registracija extends React.Component {
 				.then(response => {
 					tocno = response.data ? true : false;
 					this.setState({
-						email: tocno ? emailInput : '',
+						email: emailInput,
 						greskaEmail: !tocno
 					});
 				});
 		} else {
 			this.setState({
-				email: tocno ? emailInput : '',
+				email: emailInput,
 				greskaEmail: !tocno
 			});
 		}
