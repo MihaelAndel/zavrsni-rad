@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import './App.css';
+import '../App.css';
 import { CLIENT_RENEG_LIMIT } from 'tls';
 
 class Registracija extends React.Component {

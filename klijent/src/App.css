@@ -49,6 +49,13 @@ div.registracija {
 	margin: auto;
 }
 
+div.prijava {
+	box-sizing: border-box;
+	border: 2px solid black;
+	width: 15%;
+	margin: auto;
+}
+
 div.registracija input,
 div.registracija button {
 	display: block;

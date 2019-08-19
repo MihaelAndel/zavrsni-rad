@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const baza = require('./api/baza');
 const registracija = require('./api/registracija');
+const prijava = require('./api/prijava');
 
 const app = express();
 
@@ -22,6 +23,14 @@ app.post('/api/registriraj', (request, response) => {
 	var email = request.body.email;
 	registracija.RegistrirajKorisnika(email, korisnickoIme, poruka => {
 		response.send(poruka);
+	});
+});
+
+app.get('/api/prijavi', (request, response) => {
+	var korisnickoIme = request.query.korisnickoIme;
+	var lozinka = request.query.lozinka;
+	prijava.PrijaviKorisnika(korisnickoIme, lozinka, rezultat => {
+		response.json(rezultat);
 	});
 });
 

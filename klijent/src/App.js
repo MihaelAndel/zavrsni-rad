@@ -1,56 +1,29 @@
 import React from 'react';
 import axios from 'axios';
-import Registracija from './registracija';
+import Cookies from 'js-cookie';
+import Registracija from './moduli/registracija';
+import Prijava from './moduli/prijava';
 import './App.css';
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
+		var korisnik = Cookies.get('korisnik') ? Cookies.get('korisnik') : '';
+		var tip = Cookies.get('tip') ? Cookies.get('tip') : '';
+		console.log(korisnik + tip);
 		this.state = {
-			nekaj: null
+			korisnickoIme: korisnik,
+			tipKorisnika: tip
 		};
 	}
-
-	componentDidMount() {
-		DohvatiNekaj(response => {
-			this.setState({
-				nekaj: response.data
-			});
-		});
-	}
-
 	render() {
-		var vrste = this.state.nekaj;
 		return (
 			<div className="App">
 				<Registracija />
-				<Popis lista={vrste} />
+				<Prijava />
 			</div>
 		);
 	}
-}
-
-class Popis extends React.Component {
-	render() {
-		var lista = this.props.lista;
-		if (lista) {
-			return (
-				<ol>
-					{lista.map(element => (
-						<li key={element.id}> {element.naziv} </li>
-					))}
-				</ol>
-			);
-		} else {
-			return <h2>Nema nicega.</h2>;
-		}
-	}
-}
-
-function DohvatiNekaj(callback) {
-	axios.get('http://localhost:5000/api/nekaj').then(response => {
-		callback(response);
-	});
 }
 
 export default App;
