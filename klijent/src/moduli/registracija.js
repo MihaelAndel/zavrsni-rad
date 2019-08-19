@@ -129,7 +129,7 @@ class Registracija extends React.Component {
 			greskaEmail: true
 		});
 		var emailInput = e.target.value;
-		var regex = /^\w+@\w+\.\w{2,3}$/;
+		var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 		var tocno = regex.test(emailInput) && emailInput.length !== 0;
 
 		if (tocno) {
