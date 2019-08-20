@@ -4,7 +4,6 @@ const cors = require('cors');
 const baza = require('./api/baza');
 const registracija = require('./api/registracija');
 const prijava = require('./api/prijava');
-const mail = require('./api/slanje-poste');
 
 const app = express();
 
@@ -12,12 +11,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'klijent/build')));
-
-app.get('/api/nekaj', (request, response) => {
-	baza.Upit('SELECT * FROM TipOsobe', (result, error) => {
-		response.json(result);
-	});
-});
 
 app.post('/api/registriraj', (request, response) => {
 	var korisnickoIme = request.body.korisnickoIme;
@@ -49,9 +42,17 @@ app.get('/api/provjeriKorisnika', (request, response) => {
 	});
 });
 
-app.get('*', (request, response) => {
-	response.sendFile(path.join(__dirname + '/klijent/build/index.html'));
-});
+app.get('/api/test', (request, response) => {
+	// console.log('radi');
+	baza.Upit("SELECT * FROM Korisnik", (rezultat, error) => {
+		console.log(rezultat);
+		console.log(typeof rezultat);
+	})
+})
+
+// app.get('*', (request, response) => {
+// 	response.sendFile(path.join(__dirname + '/klijent/build/index.html'));
+// });
 
 const port = process.env.PORT || 5000;
 
