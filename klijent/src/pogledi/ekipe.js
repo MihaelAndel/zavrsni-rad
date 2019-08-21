@@ -38,7 +38,7 @@ class Ekipe extends React.Component {
 		var korisnik = Cookies.get('id') ? Cookies.get('id') : '';
 		if (this.state.listaEkipa.length === 0) {
 			axios
-				.get(`/api/dohvatiEkipe?korisnik=${korisnik}`)
+				.get(`/api/ekipe/dohvati?korisnik=${korisnik}`)
 				.then(response => {
 					this.setState({
 						listaEkipa: response.data

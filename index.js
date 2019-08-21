@@ -42,11 +42,12 @@ app.get('/api/provjeriKorisnika', (request, response) => {
 	});
 });
 
-app.get('/api/dohvatiEkipe', (request, response) => {
+app.get('/api/ekipe/dohvati', (request, response) => {
 	if (request.query.korisnik) {
 		var korisnikID = request.query.korisnik;
-		var sqlNePrati = `SELECT * FROM Ekipa e WHERE NOT EXISTS
-		(SELECT * FROM PratiEkipu p WHERE e.id = p.Ekipa_id AND '${korisnikID}' = p.Korisnik_id)`;
+		var sqlNePrati =
+			`SELECT * FROM Ekipa e WHERE NOT EXISTS ` +
+			`(SELECT * FROM PratiEkipu p WHERE e.id = p.Ekipa_id AND '${korisnikID}' = p.Korisnik_id)`;
 		var sqlPrati =
 			`SELECT e.id as id, e.naziv as naziv, e.lokacija as lokacija, e.arena as arena ` +
 			`FROM Ekipa e, PratiEkipu p WHERE p.Ekipa_id = e.id AND p.Korisnik_id = ${korisnikID}`;
@@ -72,6 +73,21 @@ app.get('/api/dohvatiEkipe', (request, response) => {
 			response.json(rezultat);
 		});
 	}
+});
+
+app.post('/api/ekipe/podesiPracenje', (request, response) => {
+	var korisnik = request.body.korisnik;
+	var ekipa = request.body.ekipa;
+	var sql = request.body.prati
+		? `INSERT INTO PratiEkipu VALUES(${ekipa}, ${korisnik})`
+		: `DELETE FROM PratiEkipu WHERE Korisnik_id = ${korisnik} AND Ekipa_id = ${ekipa}`;
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json('ok');
+		} else {
+			response.json('error');
+		}
+	});
 });
 
 app.get('*', (request, response) => {

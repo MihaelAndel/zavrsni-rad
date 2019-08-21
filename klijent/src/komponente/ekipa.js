@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 class Ekipa extends React.Component {
 	constructor(props) {
@@ -6,9 +8,15 @@ class Ekipa extends React.Component {
 		this.state = {
 			prati: props.prati
 		};
+		this.PodesiPracenje = this.PodesiPracenje.bind(this);
 	}
 
 	render() {
+		var iskljucen = Cookies.get('korisnik') ? '' : 'disabled';
+		var tekstGumba = this.state.prati
+			? 'Prestani pratiti'
+			: 'Počni pratiti';
+		var stanje = this.state.prati ? 'Da' : 'Ne';
 		return (
 			<div className="blok ekipa" id={this.props.id}>
 				<span>
@@ -26,10 +34,33 @@ class Ekipa extends React.Component {
 				<br />
 				<span>
 					<label>Prati: </label>
-					{this.state.prati}
+					{stanje}
 				</span>
+				<br />
+				<button disabled={iskljucen} onClick={this.PodesiPracenje}>
+					{tekstGumba}
+				</button>
 			</div>
 		);
+	}
+
+	PodesiPracenje() {
+		var korisnikID = Cookies.get('id');
+		var ekipaID = this.props.id;
+
+		axios
+			.post('/api/ekipe/podesiPracenje', {
+				korisnik: korisnikID,
+				ekipa: ekipaID,
+				prati: !this.state.prati
+			})
+			.then(response => {
+				if (response.data === 'ok') {
+					this.setState({
+						prati: !this.state.prati
+					});
+				}
+			});
 	}
 }
 
