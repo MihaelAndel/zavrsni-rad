@@ -14,6 +14,7 @@ class App extends React.Component {
 		var korisnik = Cookies.get('korisnik') ? Cookies.get('korisnik') : null;
 		var tip = Cookies.get('tip') ? Cookies.get('tip') : null;
 		console.log(korisnik + tip);
+		console.log(Cookies.get('id'));
 		this.state = {
 			korisnickoIme: korisnik,
 			tipKorisnika: tip,

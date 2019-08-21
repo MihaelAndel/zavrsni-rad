@@ -23,6 +23,11 @@ class Ekipa extends React.Component {
 					<label>Arena: </label>
 					{this.props.arena}
 				</span>
+				<br />
+				<span>
+					<label>Prati: </label>
+					{this.state.prati}
+				</span>
 			</div>
 		);
 	}

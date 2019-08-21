@@ -5,7 +5,7 @@ function PrijaviKorisnika(korisnickoIme, lozinka, callback) {
 	lozinka = md5(lozinka);
 	console.log(lozinka);
 	baza.Upit(
-		`SELECT k.korisnickoIme as kIme, t.id as tid FROM Korisnik k, TipKorisnika t ` +
+		`SELECT k.id, k.korisnickoIme as kIme, t.id as tid FROM Korisnik k, TipKorisnika t ` +
 			`WHERE k.korisnickoIme = '${korisnickoIme}' AND k.lozinka = '${lozinka}' ` +
 			`AND t.id = k.tipKorisnika`,
 		(rezultat, error) => {

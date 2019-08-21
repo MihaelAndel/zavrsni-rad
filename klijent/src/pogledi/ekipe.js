@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import PopisEkipa from '../komponente/popis-ekipa';
 import { stat } from 'fs';
@@ -34,12 +35,15 @@ class Ekipe extends React.Component {
 	}
 
 	DohvatiEkipe() {
+		var korisnik = Cookies.get('id') ? Cookies.get('id') : '';
 		if (this.state.listaEkipa.length === 0) {
-			axios.get('/api/dohvatiEkipe').then(response => {
-				this.setState({
-					listaEkipa: response.data
+			axios
+				.get(`/api/dohvatiEkipe?korisnik=${korisnik}`)
+				.then(response => {
+					this.setState({
+						listaEkipa: response.data
+					});
 				});
-			});
 		}
 	}
 }

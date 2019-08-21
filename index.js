@@ -43,9 +43,35 @@ app.get('/api/provjeriKorisnika', (request, response) => {
 });
 
 app.get('/api/dohvatiEkipe', (request, response) => {
-	baza.Upit('SELECT * FROM Ekipa', (rezultat, error) => {
-		response.json(rezultat);
-	});
+	if (request.query.korisnik) {
+		var korisnikID = request.query.korisnik;
+		var sqlNePrati = `SELECT * FROM Ekipa e WHERE NOT EXISTS
+		(SELECT * FROM PratiEkipu p WHERE e.id = p.Ekipa_id AND '${korisnikID}' = p.Korisnik_id)`;
+		var sqlPrati =
+			`SELECT e.id as id, e.naziv as naziv, e.lokacija as lokacija, e.arena as arena ` +
+			`FROM Ekipa e, PratiEkipu p WHERE p.Ekipa_id = e.id AND p.Korisnik_id = ${korisnikID}`;
+		baza.Upit(sqlNePrati, (rezultatNePrati, error) => {
+			rezultatNePrati.forEach(ekipa => {
+				ekipa.prati = false;
+			});
+			baza.Upit(sqlPrati, (rezultatPrati, errorPrati) => {
+				rezultatPrati.forEach(ekipa => {
+					ekipa.prati = true;
+				});
+				var rezultat = rezultatPrati.concat(rezultatNePrati);
+				var rezultat = rezultat.sort((a, b) => (a.id > b.id ? 1 : -1));
+				response.json(rezultat);
+			});
+		});
+	} else {
+		var sql = 'SELECT * FROM Ekipa';
+		baza.Upit(sql, (rezultat, error) => {
+			rezultat.forEach(ekipa => {
+				ekipa.prati = false;
+			});
+			response.json(rezultat);
+		});
+	}
 });
 
 app.get('*', (request, response) => {

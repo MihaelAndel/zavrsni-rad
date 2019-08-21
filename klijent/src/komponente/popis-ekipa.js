@@ -10,6 +10,7 @@ function PopisEkipa(props) {
 					naziv={ekipa.naziv}
 					lokacija={ekipa.lokacija}
 					arena={ekipa.arena}
+					prati={ekipa.prati === true ? 'Da' : 'Ne'}
 				/>
 			))}
 		</ul>

@@ -81,7 +81,9 @@ class Prijava extends React.Component {
 			.then(response => {
 				if (response.data.length !== 0) {
 					Cookies.set('korisnik', response.data[0].kIme);
+					Cookies.set('id', response.data[0].id);
 					Cookies.set('tip', response.data[0].tid);
+					console.log(Cookies.get('id'));
 					window.location.reload();
 				} else {
 					this.setState({ poruka: 'Neispravan unos!' }, function() {
