@@ -16,12 +16,21 @@ class Ekipe extends React.Component {
 	}
 
 	render() {
-		return (
-			<div>
-				<Link to="/">Natrag</Link>
-				<PopisEkipa lista={this.state.listaEkipa} />;
-			</div>
-		);
+		if (this.state.listaEkipa.length === 0) {
+			return <p>Loading...</p>;
+		} else {
+			return (
+				<div>
+					<Link to="/">
+						<img
+							height="50px"
+							src="https://www.searchpng.com/wp-content/uploads/2019/02/Back-Arrow-Icon-PNG-715x715.png"
+						/>
+					</Link>
+					<PopisEkipa lista={this.state.listaEkipa} />;
+				</div>
+			);
+		}
 	}
 
 	DohvatiEkipe() {
