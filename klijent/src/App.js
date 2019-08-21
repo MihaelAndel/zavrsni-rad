@@ -4,8 +4,8 @@ import Cookies from 'js-cookie';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 
 import Ekipe from './pogledi/ekipe';
-import Registracija from './komponente/registracija';
-import Prijava from './komponente/prijava';
+import GlavnaNavigacija from './komponente/glavna-navigacija';
+import Zaglavlje from './komponente/zaglavlje';
 import './App.css';
 
 class App extends React.Component {
@@ -30,13 +30,8 @@ class App extends React.Component {
 		return (
 			<BrowserRouter>
 				<div className="aplikacija">
-					<nav id="gornja-navigacija">
-						<Registracija />
-						<Prijava />
-					</nav>
-					<nav id="lijeva-navigacija">
-						<Link to="/ekipe/">Ekipe</Link>
-					</nav>
+					<Zaglavlje />
+					<GlavnaNavigacija />
 					<main>
 						<Route exact path="/ekipe/" component={Ekipe} />
 					</main>

@@ -4,6 +4,7 @@ const cors = require('cors');
 const baza = require('./api/baza');
 const registracija = require('./api/registracija');
 const prijava = require('./api/prijava');
+const navigacija = require('./api/navigacija');
 
 const app = express();
 
@@ -88,6 +89,11 @@ app.post('/api/ekipe/podesiPracenje', (request, response) => {
 			response.json('error');
 		}
 	});
+});
+
+app.get('/api/navigacija/dohvati', (request, response) => {
+	var korisnik = request.query.korisnik;
+	response.json(navigacija.GenerirajNavigaciju(korisnik));
 });
 
 app.get('*', (request, response) => {
