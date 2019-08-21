@@ -1,18 +1,31 @@
 import React from 'react';
 
 class Ekipa extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            id: props.id,
-            naziv: props.naziv,
-            lokacija: props.lokacija,
-            arena: props.arena,
-            prati: props.prati
-        }
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			prati: props.prati
+		};
+	}
 
-    render(){
-        return(<div></div>)
-    }
+	render() {
+		return (
+			<div className="blok ekipa" id={this.props.id}>
+				<span>
+					<label>Naziv:</label> {this.props.naziv}
+				</span>
+				<br />
+				<span>
+					<label>Lokacija:</label> {this.props.lokacija}
+				</span>
+				<br />
+				<span>
+					<label>Arena: </label>
+					{this.props.arena}
+				</span>
+			</div>
+		);
+	}
 }
+
+export default Ekipa;

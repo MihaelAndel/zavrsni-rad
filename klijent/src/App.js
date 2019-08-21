@@ -1,9 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { BrowserRouter, Link, Route } from 'react-router-dom';
+
+import Ekipe from './pogledi/ekipe';
 import Registracija from './komponente/registracija';
 import Prijava from './komponente/prijava';
-import PopisOsoba from './komponente/popis-osoba';
 import './App.css';
 
 class App extends React.Component {
@@ -14,18 +16,31 @@ class App extends React.Component {
 		console.log(korisnik + tip);
 		this.state = {
 			korisnickoIme: korisnik,
-			tipKorisnika: tip
+			tipKorisnika: tip,
+			lista: []
 		};
 	}
 	render() {
-		axios.get('/api/test/')
-		var lista = [{ime: 'Marko', prezime: 'Markovic'}, 'test2', 'test3'];
+		if (this.state.lista.length === 0) {
+			axios.get('/api/test/').then(response => {
+				this.setState({ lista: response.data });
+			});
+		}
 		return (
-			<div className="App">
-				<Registracija />
-				<Prijava />
-				<PopisOsoba lista={lista} />
-			</div>
+			<BrowserRouter>
+				<div className="aplikacija">
+					<nav id="gornja-navigacija">
+						<Registracija />
+						<Prijava />
+					</nav>
+					<nav id="lijeva-navigacija">
+						<Link to="/ekipe/">Ekipe</Link>
+					</nav>
+					<main>
+						<Route exact path="/ekipe/" component={Ekipe} />
+					</main>
+				</div>
+			</BrowserRouter>
 		);
 	}
 }

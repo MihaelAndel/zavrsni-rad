@@ -42,17 +42,15 @@ app.get('/api/provjeriKorisnika', (request, response) => {
 	});
 });
 
-app.get('/api/test', (request, response) => {
-	// console.log('radi');
-	baza.Upit("SELECT * FROM Korisnik", (rezultat, error) => {
-		console.log(rezultat);
-		console.log(typeof rezultat);
-	})
-})
+app.get('/api/dohvatiEkipe', (request, response) => {
+	baza.Upit('SELECT * FROM Ekipa', (rezultat, error) => {
+		response.json(rezultat);
+	});
+});
 
-// app.get('*', (request, response) => {
-// 	response.sendFile(path.join(__dirname + '/klijent/build/index.html'));
-// });
+app.get('*', (request, response) => {
+	response.sendFile(path.join(__dirname + '/klijent/build/index.html'));
+});
 
 const port = process.env.PORT || 5000;
 
