@@ -9,6 +9,7 @@ import Zaglavlje from './komponente/zaglavlje';
 import Prijava from './komponente/prijava';
 import Registracija from './komponente/registracija';
 import Naslovna from './komponente/naslovna';
+import Osobe from './pogledi/osobe';
 import './App.css';
 
 class App extends React.Component {
@@ -28,25 +29,25 @@ class App extends React.Component {
 				<div className="aplikacija">
 					<Zaglavlje odjava={this.OdjaviKorisnika} />
 					<GlavnaNavigacija />
-					<Route
-						exact
-						path="/prijava/"
-						render={props => (
-							<Prijava
-								{...props}
-								funkcija={this.PrijaviKorisnika}
-							/>
-						)}
-					/>
 					<main>
 						<Route exact path="/" component={Naslovna} />
 						<Route exact path="/ekipe/" component={Ekipe} />
-
 						<Route
 							exact
 							path="/registracija/"
 							component={Registracija}
 						/>
+						<Route
+							exact
+							path="/prijava/"
+							render={props => (
+								<Prijava
+									{...props}
+									funkcija={this.PrijaviKorisnika}
+								/>
+							)}
+						/>
+						<Route exact path="/osobe" component={Osobe} />
 					</main>
 				</div>
 			</BrowserRouter>

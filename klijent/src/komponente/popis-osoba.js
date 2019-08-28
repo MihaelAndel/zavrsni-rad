@@ -1,25 +1,22 @@
 import React from 'react';
 import Osoba from './osoba';
 
-class PopisOsoba extends React.Component {
-
-    constructor(props){
-        super(props);
-
-        this.state = {
-            lista: props.lista
-        }
-    }
-
-    render(){
-        return(
-            <ul>
-                {this.state.lista.map(osoba => (
-                    <Osoba ime={osoba.ime} prezime={osoba.prezime} />
-                ))}
-            </ul>
-        );
-    }
+function PopisOsoba(props) {
+	return (
+		<ul>
+			{props.lista.map(osoba => (
+				<Osoba
+					id={osoba.id}
+					key={osoba.id}
+					ime={osoba.ime}
+					prezime={osoba.prezime}
+					ekipa={osoba.ekipa}
+					broj={osoba.broj}
+					pozicija={osoba.pozicija}
+					prati={osoba.prati}></Osoba>
+			))}
+		</ul>
+	);
 }
 
 export default PopisOsoba;

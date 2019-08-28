@@ -1,39 +1,39 @@
 import React from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import PopisEkipa from '../komponente/popis-ekipa';
+import PopisOsoba from '../komponente/popis-osoba';
 
 class Ekipe extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			listaEkipa: []
+			listaOsoba: []
 		};
 
-		this.DohvatiEkipe();
+		this.DohvatiOsobe();
 	}
 
 	render() {
-		if (this.state.listaEkipa.length === 0) {
+		if (this.state.listaOsoba.length === 0) {
 			return <p>Loading...</p>;
 		} else {
 			return (
 				<div>
-					<PopisEkipa lista={this.state.listaEkipa} />;
+					<PopisOsoba lista={this.state.listaOsoba} />;
 				</div>
 			);
 		}
 	}
 
-	DohvatiEkipe() {
+	DohvatiOsobe() {
 		var korisnik = Cookies.get('id') ? Cookies.get('id') : '';
-		if (this.state.listaEkipa.length === 0) {
+		if (this.state.listaOsoba.length === 0) {
 			axios
-				.get(`/api/ekipe/dohvati?korisnik=${korisnik}`)
+				.get(`/api/osobe/dohvati?korisnik=${korisnik}`)
 				.then(response => {
 					this.setState({
-						listaEkipa: response.data
+						listaOsoba: response.data
 					});
 				});
 		}
