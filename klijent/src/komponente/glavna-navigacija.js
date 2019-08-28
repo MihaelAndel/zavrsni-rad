@@ -18,7 +18,7 @@ class GlavnaNavigacija extends React.Component {
 			<nav id="glavna-navigacija">
 				{this.state.poveznice.map(poveznica => (
 					<Link key={poveznica.id} to={poveznica.putanja}>
-						{poveznica.naziv}
+						<button>{poveznica.naziv}</button>
 					</Link>
 				))}
 			</nav>
@@ -30,9 +30,6 @@ class GlavnaNavigacija extends React.Component {
 		axios
 			.get(`/api/navigacija/dohvati?korisnik=${korisnik}`)
 			.then(response => {
-				response.data.forEach(poveznica => {
-					console.log(poveznica.naziv);
-				});
 				this.setState({
 					poveznice: response.data
 				});

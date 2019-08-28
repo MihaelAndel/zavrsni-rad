@@ -8,7 +8,6 @@ class Registracija extends React.Component {
 	constructor(props) {
 		super(props);
 		this.RegistrirajKorisnika = this.RegistrirajKorisnika.bind(this);
-		this.PodesiVidljivost = this.PodesiVidljivost.bind(this);
 		this.ProvjeriEmail = this.ProvjeriEmail.bind(this);
 		this.ProvjeriKorisnickoIme = this.ProvjeriKorisnickoIme.bind(this);
 		this.state = {
@@ -22,7 +21,6 @@ class Registracija extends React.Component {
 	}
 
 	render() {
-		var klasa = this.state.vidljivo ? 'vidljivo' : 'nevidljivo';
 		var iskljucen =
 			this.state.greskaEmail || this.state.greskaKorisnickoIme
 				? 'disabled'
@@ -31,13 +29,10 @@ class Registracija extends React.Component {
 			? 'Dogodila se greška, pokušajte ponovo!'
 			: '';
 		return (
-			<div
-				className="registracija"
-				onMouseEnter={this.PodesiVidljivost}
-				onMouseLeave={this.PodesiVidljivost}>
+			<div className="registracija">
 				<Poruka poruka={poruka} />
 				<p>Registracija</p>
-				<div className={klasa}>
+				<div>
 					<form autoComplete="off" id="form-registracija">
 						<input
 							onInput={this.ProvjeriEmail}
@@ -89,14 +84,6 @@ class Registracija extends React.Component {
 					}
 				});
 		}
-	}
-
-	PodesiVidljivost(e) {
-		e.preventDefault();
-		var stanje = !this.state.vidljivo;
-		this.setState({
-			vidljivo: stanje
-		});
 	}
 
 	ProvjeriKorisnickoIme(e) {

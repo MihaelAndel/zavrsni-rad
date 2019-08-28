@@ -8,7 +8,6 @@ import { runInThisContext } from 'vm';
 class Prijava extends React.Component {
 	constructor(props) {
 		super(props);
-		this.PodesiVidljivost = this.PodesiVidljivost.bind(this);
 		this.PrijaviKorisnika = this.PrijaviKorisnika.bind(this);
 		this.ProvjeriKorisnickoIme = this.ProvjeriKorisnickoIme.bind(this);
 		this.ProvjeriLozinku = this.ProvjeriLozinku.bind(this);
@@ -23,7 +22,6 @@ class Prijava extends React.Component {
 	}
 
 	render() {
-		var klasa = this.state.vidljivo ? 'vidljivo' : 'nevidljivo';
 		var ukljucen =
 			this.state.greskaKorisnickoIme || this.state.greskaLozinka
 				? 'disabled'
@@ -36,7 +34,7 @@ class Prijava extends React.Component {
 				onMouseLeave={this.PodesiVidljivost}>
 				<Poruka poruka={poruka} />
 				<p>Prijava</p>
-				<div className={klasa}>
+				<div>
 					<form>
 						<input
 							type="text"
@@ -62,21 +60,11 @@ class Prijava extends React.Component {
 		);
 	}
 
-	PodesiVidljivost(e) {
-		e.preventDefault();
-		var stanje = !this.state.vidljivo;
-		this.setState({
-			vidljivo: stanje
-		});
-	}
-
 	PrijaviKorisnika(e) {
 		e.preventDefault();
 		axios
 			.get(
-				`/api/prijavi?korisnickoIme=${
-					this.state.korisnickoIme
-				}&lozinka=${this.state.lozinka}`
+				`/api/prijavi?korisnickoIme=${this.state.korisnickoIme}&lozinka=${this.state.lozinka}`
 			)
 			.then(response => {
 				if (response.data.length !== 0) {
@@ -84,7 +72,11 @@ class Prijava extends React.Component {
 					Cookies.set('id', response.data[0].id);
 					Cookies.set('tip', response.data[0].tid);
 					console.log(Cookies.get('id'));
-					window.location.reload();
+					this.props.funkcija(
+						response.data[0].kIme,
+						response.data[0].tid,
+						response.data[0].id
+					);
 				} else {
 					this.setState({ poruka: 'Neispravan unos!' }, function() {
 						setInterval(() => {

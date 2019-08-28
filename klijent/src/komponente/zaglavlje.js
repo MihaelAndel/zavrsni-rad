@@ -1,24 +1,25 @@
 import React from 'react';
 import Cookies from 'js-cookie';
-import Prijava from './prijava';
-import Registracija from './registracija';
 import Pozdrav from './pozdrav';
+import { Link } from 'react-router-dom';
 
-function Zaglavlje() {
+function Zaglavlje(props) {
 	var korisnik = Cookies.get('korisnik');
-	console.log(korisnik);
 	if (!korisnik) {
 		return (
 			<header>
-				<Prijava />
-				<Registracija />
-				<Pozdrav />
+				<Link to="/prijava">
+					<button>Prijava</button>
+				</Link>
+				<Link to="/registracija">
+					<button>Registracija</button>
+				</Link>
 			</header>
 		);
 	} else {
 		return (
 			<header>
-				<Pozdrav korisnik={korisnik} />
+				<Pozdrav odjava={props.odjava} />
 			</header>
 		);
 	}
