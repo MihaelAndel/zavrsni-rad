@@ -18,7 +18,9 @@ class Ekipa extends React.Component {
 			: 'Počni pratiti';
 		var stanje = this.state.prati ? 'Da' : 'Ne';
 		return (
-			<div className="blok ekipa" id={this.props.id}>
+			<div
+				className="blok blok-ekipa obrub obrub-zaobljeno pozadina"
+				id={this.props.id}>
 				<span>
 					<label>Naziv:</label> {this.props.naziv}
 				</span>

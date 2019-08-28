@@ -31,15 +31,16 @@ class App extends React.Component {
 					<GlavnaNavigacija />
 					<main>
 						<Route exact path="/" component={Naslovna} />
-						<Route exact path="/ekipe/" component={Ekipe} />
+						<Route path="/ekipe" component={Ekipe} />
+						<Route path="/osobe" component={Osobe} />
 						<Route
 							exact
-							path="/registracija/"
+							path="/registracija"
 							component={Registracija}
 						/>
 						<Route
 							exact
-							path="/prijava/"
+							path="/prijava"
 							render={props => (
 								<Prijava
 									{...props}
@@ -47,7 +48,6 @@ class App extends React.Component {
 								/>
 							)}
 						/>
-						<Route exact path="/osobe" component={Osobe} />
 					</main>
 				</div>
 			</BrowserRouter>

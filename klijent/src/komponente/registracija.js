@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Poruka from './poruka';
 import '../App.css';
+import { Redirect } from 'react-router-dom';
 
 class Registracija extends React.Component {
 	constructor(props) {
@@ -15,7 +16,8 @@ class Registracija extends React.Component {
 			email: '',
 			poruka: '',
 			greskaEmail: true,
-			greskaKorisnickoIme: true
+			greskaKorisnickoIme: true,
+			redirect: false
 		};
 	}
 
@@ -27,33 +29,37 @@ class Registracija extends React.Component {
 		var poruka = this.state.greskaRegistracije
 			? 'Dogodila se greška, pokušajte ponovo!'
 			: '';
-		return (
-			<div className="registracija">
-				<Poruka poruka={poruka} />
-				<p>Registracija</p>
-				<div>
-					<form autoComplete="off" id="form-registracija">
-						<input
-							onInput={this.ProvjeriEmail}
-							id="emailAdresa"
-							type="text"
-							placeholder="E-mail adresa"
-						/>
-						<input
-							onInput={this.ProvjeriKorisnickoIme}
-							id="korisnickoIme"
-							type="text"
-							placeholder="Korisničko ime"
-						/>
-						<button
-							onClick={this.RegistrirajKorisnika}
-							disabled={iskljucen}>
-							Registrirajte se!
-						</button>
-					</form>
+		if (this.state.redirect) {
+			return <Redirect to="/" />;
+		} else {
+			return (
+				<div className="registracija">
+					<Poruka poruka={poruka} />
+					<p>Registracija</p>
+					<div>
+						<form autoComplete="off" id="form-registracija">
+							<input
+								onInput={this.ProvjeriEmail}
+								id="emailAdresa"
+								type="text"
+								placeholder="E-mail adresa"
+							/>
+							<input
+								onInput={this.ProvjeriKorisnickoIme}
+								id="korisnickoIme"
+								type="text"
+								placeholder="Korisničko ime"
+							/>
+							<button
+								onClick={this.RegistrirajKorisnika}
+								disabled={iskljucen}>
+								Registrirajte se!
+							</button>
+						</form>
+					</div>
 				</div>
-			</div>
-		);
+			);
+		}
 	}
 
 	RegistrirajKorisnika(e) {
@@ -75,11 +81,7 @@ class Registracija extends React.Component {
 							}
 						);
 					} else {
-						var forma = document.getElementById(
-							'form-registracija'
-						);
-						forma.reset();
-						this.setState({ email: ' ', korisnickoIme: ' ' });
+						this.setState({ redirect: true });
 					}
 				});
 		}

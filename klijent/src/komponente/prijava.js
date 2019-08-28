@@ -3,7 +3,7 @@ import axios from 'axios';
 import Poruka from './poruka';
 import Cookies from 'js-cookie';
 import '../App.css';
-import { runInThisContext } from 'vm';
+import { Redirect } from 'react-router-dom';
 
 class Prijava extends React.Component {
 	constructor(props) {
@@ -17,7 +17,8 @@ class Prijava extends React.Component {
 			lozinka: '',
 			greskaKorisnickoIme: true,
 			greskaLozinka: true,
-			poruka: ''
+			poruka: '',
+			redirect: false
 		};
 	}
 
@@ -27,37 +28,41 @@ class Prijava extends React.Component {
 				? 'disabled'
 				: '';
 		var poruka = this.state.poruka;
-		return (
-			<div
-				className="prijava"
-				onMouseEnter={this.PodesiVidljivost}
-				onMouseLeave={this.PodesiVidljivost}>
-				<Poruka poruka={poruka} />
-				<p>Prijava</p>
-				<div>
-					<form>
-						<input
-							type="text"
-							placeholder="Korisničko ime"
-							onChange={this.ProvjeriKorisnickoIme}
-							value={this.state.korisnickoIme}
-						/>
-						<input
-							type="password"
-							placeholder="Lozinka"
-							onChange={this.ProvjeriLozinku}
-							value={this.state.lozinka}
-						/>
-						<input
-							type="submit"
-							value="Prijavi se"
-							onClick={this.PrijaviKorisnika}
-							disabled={ukljucen}
-						/>
-					</form>
+		if (this.state.redirect) {
+			return <Redirect to="/" />;
+		} else {
+			return (
+				<div
+					className="prijava"
+					onMouseEnter={this.PodesiVidljivost}
+					onMouseLeave={this.PodesiVidljivost}>
+					<Poruka poruka={poruka} />
+					<p>Prijava</p>
+					<div>
+						<form>
+							<input
+								type="text"
+								placeholder="Korisničko ime"
+								onChange={this.ProvjeriKorisnickoIme}
+								value={this.state.korisnickoIme}
+							/>
+							<input
+								type="password"
+								placeholder="Lozinka"
+								onChange={this.ProvjeriLozinku}
+								value={this.state.lozinka}
+							/>
+							<input
+								type="submit"
+								value="Prijavi se"
+								onClick={this.PrijaviKorisnika}
+								disabled={ukljucen}
+							/>
+						</form>
+					</div>
 				</div>
-			</div>
-		);
+			);
+		}
 	}
 
 	PrijaviKorisnika(e) {
@@ -72,11 +77,8 @@ class Prijava extends React.Component {
 					Cookies.set('id', response.data[0].id);
 					Cookies.set('tip', response.data[0].tid);
 					console.log(Cookies.get('id'));
-					this.props.funkcija(
-						response.data[0].kIme,
-						response.data[0].tid,
-						response.data[0].id
-					);
+					this.props.funkcija();
+					this.setState({ redirect: true });
 				} else {
 					this.setState({ poruka: 'Neispravan unos!' }, function() {
 						setInterval(() => {

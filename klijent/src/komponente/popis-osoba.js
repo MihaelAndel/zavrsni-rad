@@ -13,7 +13,8 @@ function PopisOsoba(props) {
 					ekipa={osoba.ekipa}
 					broj={osoba.broj}
 					pozicija={osoba.pozicija}
-					prati={osoba.prati}></Osoba>
+					prati={osoba.prati}
+					tip={osoba.tip}></Osoba>
 			))}
 		</ul>
 	);

@@ -1,48 +1,86 @@
+@keyframes rotacija {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 html,
 body {
 	font-size: 16px;
+	--main-border-color: #60cc18;
+	--main-back-color: #a6ff6b;
+	--neutral-back-color: #b8cfa8;
 }
 
-.vidljivo {
+.blok {
 	display: block;
 }
 
-.nevidljivo {
-	display: none;
+.centar {
+	margin: auto;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	bottom: 50%;
+	right: 50%;
 }
 
-div.registracija {
-	box-sizing: border-box;
-	padding: 5px;
-	width: 15%;
-	border: 2px solid black;
+.obrub {
+	border: 2px solid var(--main-border-color);
+}
+
+.obrub-zaobljeno {
 	border-radius: 10px;
-	margin: auto;
 }
 
-div.prijava {
-	box-sizing: border-box;
-	border: 2px solid black;
-	width: 15%;
-	margin: auto;
+.rotiranje {
+	animation-name: rotacija;
+	animation-duration: 3s;
 }
 
-div.registracija input,
-div.registracija button {
-	display: block;
-	margin: auto;
+.pozadina {
+	background-color: var(--main-back-color);
 }
 
-.blok.ekipa {
+.pozadina-neutral {
+	background-color: var(--neutral-back-color);
+}
+
+.blok-ekipa {
 	display: inline-block;
 	box-sizing: border-box;
 	margin: 5px 1px;
 	width: 18%;
-	border: 1px solid greenyellow;
 	font-size: 90%;
 }
 
-.blok.ekipa label {
+.blok-ekipa label {
 	font-size: 85%;
 	font-weight: 400;
+}
+
+.detaljno {
+	height: 80%;
+	width: 80%;
+	box-sizing: border-box;
+	position: absolute;
+	top: 10%;
+	bottom: 10%;
+	left: 10%;
+	right: 10%;
+}
+
+.odbaci {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.prozirno {
+	background-color: rgba(125, 125, 125, 0.5);
 }

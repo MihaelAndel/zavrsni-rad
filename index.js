@@ -76,6 +76,13 @@ app.get('/api/ekipe/dohvati', (request, response) => {
 	}
 });
 
+app.get('/api/ekipe/detaljno', (request, response) => {
+	var sql = `SELECT naziv FROM Ekipa WHERE id=${request.query.ekipa}`;
+	baza.Upit(sql, (rezultat, error) => {
+		response.json(rezultat[0]);
+	});
+});
+
 app.post('/api/ekipe/podesiPracenje', (request, response) => {
 	var korisnik = request.body.korisnik;
 	var ekipa = request.body.ekipa;

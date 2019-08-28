@@ -2,6 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import PopisEkipa from '../komponente/popis-ekipa';
+import { Route, Link } from 'react-router-dom';
+import EkipaDetaljno from '../komponente/ekipa-detaljno';
+import Ucitavanje from '../komponente/ucitavanje';
 
 class Ekipe extends React.Component {
 	constructor(props) {
@@ -16,11 +19,15 @@ class Ekipe extends React.Component {
 
 	render() {
 		if (this.state.listaEkipa.length === 0) {
-			return <p>Loading...</p>;
+			return <Ucitavanje />;
 		} else {
 			return (
 				<div>
-					<PopisEkipa lista={this.state.listaEkipa} />;
+					<PopisEkipa
+						putanja={this.props.match.url}
+						lista={this.state.listaEkipa}
+					/>
+					<Route path="/ekipe/:id" component={EkipaDetaljno} />
 				</div>
 			);
 		}
