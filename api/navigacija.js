@@ -16,12 +16,18 @@ var navigacija = [
 		vrsteKorisnika: '1234',
 		naziv: 'Osobe',
 		putanja: '/osobe/'
+	},
+	{
+		id: 4,
+		vrsteKorisnika: '23',
+		naziv: 'Stvori objavu',
+		putanja: '/nova-objava/'
 	}
 ];
 
 function GenerirajNavigaciju(tipKorisnika) {
 	var rezultat = [];
-	var tip = tipKorisnika.toString();
+	var tip = tipKorisnika === '' ? '4' : tipKorisnika.toString();
 	navigacija.forEach(poveznica => {
 		if (poveznica.vrsteKorisnika.indexOf(tip) !== -1) {
 			rezultat.push(poveznica);

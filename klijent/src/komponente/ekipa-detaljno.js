@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import '../App.css';
 import Ucitavanje from './ucitavanje';
 
 class EkipaDetaljno extends React.Component {

@@ -1,15 +1,15 @@
 import React from 'react';
-import axios from 'axios';
 import Cookies from 'js-cookie';
-import { BrowserRouter, Link, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import Ekipe from './pogledi/ekipe';
 import GlavnaNavigacija from './komponente/glavna-navigacija';
 import Zaglavlje from './komponente/zaglavlje';
 import Prijava from './komponente/prijava';
 import Registracija from './komponente/registracija';
-import Naslovna from './komponente/naslovna';
+import Naslovna from './pogledi/naslovna';
 import Osobe from './pogledi/osobe';
+import ObrazacNovaObjava from './komponente/obrazac-nova-objava';
 import './App.css';
 
 class App extends React.Component {
@@ -47,6 +47,11 @@ class App extends React.Component {
 									funkcija={this.PrijaviKorisnika}
 								/>
 							)}
+						/>
+						<Route
+							exact
+							path="/nova-objava/"
+							component={ObrazacNovaObjava}
 						/>
 					</main>
 				</div>
