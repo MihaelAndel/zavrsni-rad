@@ -5,7 +5,6 @@ const baza = require('./api/baza');
 const registracija = require('./api/registracija');
 const prijava = require('./api/prijava');
 const navigacija = require('./api/navigacija');
-const objave = require('./api/objave');
 
 const app = express();
 
@@ -178,14 +177,48 @@ app.get('/api/navigacija/dohvati', (request, response) => {
 app.get('/api/objave/dohvati', (request, response) => {
 	var korisnik = request.query.korisnik;
 	if (korisnik) {
-		objave.DohvatiOsobePrati(korisnik, rezultatOsobe => {
-			objave.DohvatiEkipePrati(korisnik, rezultatEkipe => {
-				objave.DodajObjaveOsobe(rezultatOsobe, () => {
-					objave.DodajObjaveEkipe(rezultatEkipe, rezultat => {
-						response.json(rezultat);
-					});
+		var sveObjave = [];
+		console.log(korisnik);
+		var sqlOsobe =
+			`SELECT o.datum, o.tekst as tekst, o.naslov as naslov, k.ime as ime, k.prezime as prezime ` +
+			`FROM Objava o, Korisnik k ` +
+			`WHERE o.autor = k.id ` +
+			`AND EXISTS (SELECT * FROM OsobaUObjavi, PratiOsobu WHERE o.id = OsobaUObjavi.Objava_id ` +
+			`AND ${korisnik} = PratiOsobu.Korisnik_id) ` +
+			`ORDER BY 1 DESC LIMIT 30`;
+
+		var sqlEkipe =
+			`SELECT o.datum, o.tekst as tekst, o.naslov as naslov, k.ime as ime, k.prezime as prezime ` +
+			`FROM Objava o, Korisnik k ` +
+			`WHERE o.autor = k.id ` +
+			`AND EXISTS (SELECT * FROM EkipaUObjavi, PratiEkipu WHERE o.id = EkipaUObjavi.Objava_id ` +
+			`AND ${korisnik} = PratiEkipu.Korisnik_id) ` +
+			`ORDER BY 1 DESC LIMIT 30`;
+
+		baza.Upit(sqlOsobe, (rezultatOsobe, error) => {
+			if (!error) {
+				baza.Upit(sqlEkipe, (rezultatEkipe, error) => {
+					if (!error) {
+						sveObjave = sveObjave.concat(rezultatOsobe);
+						for (var i = 0; i < rezultatEkipe.length; i++) {
+							var duplikat = false;
+
+							for (var j = 0; j < sveObjave.length; j++) {
+								if (sveObjave[j].id === rezultatEkipe[i].id) duplikat = true;
+							}
+
+							if (!duplikat) {
+								var datumVrijeme = rezultatEkipe[i].datum.toString().split(' ');
+								rezultatEkipe[i].datum = datumVrijeme[1] + ' ' + datumVrijeme[2] + ' ' + datumVrijeme[3] + ' ' + datumVrijeme[4];
+								sveObjave.push(rezultatEkipe[i]);
+							}
+						}
+						// sveObjave = sveObjave.sort((a, b) => (a.datum > b.datum ? 1 : -1));
+						console.log(sveObjave);
+						response.json(sveObjave);
+					}
 				});
-			});
+			}
 		});
 	}
 });
