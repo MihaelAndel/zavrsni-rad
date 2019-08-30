@@ -59,7 +59,7 @@ class ObrazacNovaObjava extends React.Component {
 							maxLength="1000"
 							onChange={this.UnesiTekst}
 							value={this.state.tekst}></textarea>
-						<h3>Igrači</h3>
+						<h3>Osobe</h3>
 						<select id="osobe" onChange={this.OznaciOdabrano} size="10" multiple>
 							{this.state.osobe}
 						</select>
