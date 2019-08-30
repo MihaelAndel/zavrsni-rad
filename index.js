@@ -329,6 +329,108 @@ app.post('/api/korisnici/moderatori/pretvori', (request, response) => {
 	});
 });
 
+app.get('/api/statistika/osobe/postojanje', (request, response) => {
+	var osoba = request.query.osoba;
+	var sezona = request.query.sezona;
+	var sql = `SELECT * FROM Statistika WHERE igrac = ${osoba} AND sezona = ${sezona}`;
+
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			if (rezultat.length > 0) {
+				response.json('no');
+			} else {
+				response.json('ok');
+			}
+		}
+	});
+});
+
+app.post('/api/statistika/osobe/upisi', (request, response) => {
+	var osoba = request.body.osoba;
+	var sezona = request.body.sezona;
+	var ppg = request.body.ppg;
+	var apg = request.body.apg;
+	var rpg = request.body.rpg;
+	var bpg = request.body.bpg;
+	var spg = request.body.spg;
+	var fg = request.body.fg;
+	var p3 = request.body.p3;
+	var ortg = request.body.ortg;
+	var drtg = request.body.drtg;
+
+	var sql =
+		`INSERT INTO Statistika ` +
+		`(igrac, ekipa, sezona, poeni, asistencije, skokovi, blokovi, ` +
+		`ukradeneLopte, postotakPogodaka, postotakTrica, ocjenaNapada, ocjenaObrane) ` +
+		`VALUES(${osoba}, NULL, ${sezona}, ${ppg}, ${apg}, ${rpg}, ${bpg}, ${spg}, ${fg}, ${p3}, ${ortg}, ${drtg})`;
+
+	baza.Upit(sql, (rezultat, error) => {
+		response.json('ok');
+	});
+});
+
+app.post('/api/statistika/ekipe/upisi', (request, response) => {
+	var ekipa = request.body.ekipa;
+	var sezona = request.body.sezona;
+	var ppg = request.body.ppg;
+	var apg = request.body.apg;
+	var rpg = request.body.rpg;
+	var bpg = request.body.bpg;
+	var spg = request.body.spg;
+	var fg = request.body.fg;
+	var p3 = request.body.p3;
+	var ortg = request.body.ortg;
+	var drtg = request.body.drtg;
+
+	var sql =
+		`INSERT INTO Statistika ` +
+		`(igrac, ekipa, sezona, poeni, asistencije, skokovi, blokovi, ` +
+		`ukradeneLopte, postotakPogodaka, postotakTrica, ocjenaNapada, ocjenaObrane) ` +
+		`VALUES(NULL, ${ekipa}, ${sezona}, ${ppg}, ${apg}, ${rpg}, ${bpg}, ${spg}, ${fg}, ${p3}, ${ortg}, ${drtg})`;
+
+	baza.Upit(sql, (rezultat, error) => {
+		response.json('ok');
+	});
+});
+
+app.get('/api/statistika/ekipe/postojanje', (request, response) => {
+	var ekipa = request.query.ekipa;
+	var sezona = request.query.sezona;
+	var sql = `SELECT * FROM Statistika WHERE ekipa = ${ekipa} AND sezona = ${sezona}`;
+
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			if (rezultat.length > 0) {
+				response.json('no');
+			} else {
+				response.json('ok');
+			}
+		}
+	});
+});
+
+app.get('/api/statistika/ekipe/sezone', (request, response) => {
+	var id = request.query.ekipa;
+	var sql = `SELECT id, sezona FROM Statistika WHERE ekipa=${id}`;
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json(rezultat);
+		}
+	});
+});
+
+app.get('/api/statistika/dohvati', (request, response) => {
+	var id = request.query.id;
+	var sql = `SELECT * FROM Statistika WHERE id=${id}`;
+	baza.Upit(sql, (rezultat, error) => {
+		console.log(error);
+		console.log(rezultat);
+		if (!error) {
+			response.json(rezultat[0]);
+		}
+	});
+});
+
 app.get('*', (request, response) => {
 	response.sendFile(path.join(__dirname + '/klijent/build/index.html'));
 });

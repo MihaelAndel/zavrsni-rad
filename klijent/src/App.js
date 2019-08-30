@@ -10,6 +10,7 @@ import Registracija from './komponente/registracija';
 import Naslovna from './pogledi/naslovna';
 import Osobe from './pogledi/osobe';
 import ObrazacNovaObjava from './komponente/obrazac-nova-objava';
+import DodajStatistiku from './komponente/obrazac-dodaj-statistiku';
 import './App.css';
 
 class App extends React.Component {
@@ -40,12 +41,9 @@ class App extends React.Component {
 								<Prijava {...props} funkcija={this.PrijaviKorisnika} />
 							)}
 						/>
-						<Route exact path="/nova-objava/" component={ObrazacNovaObjava} />
-						<Route
-							exact
-							path="/upravljanje-korisnicima/"
-							component={StvoriModeratora}
-						/>
+						<Route exact path="/nova-objava" component={ObrazacNovaObjava} />
+						<Route exact path="/upravljanje-korisnicima" component={StvoriModeratora} />
+						<Route exact path="/upisivanje-statistike" component={DodajStatistiku} />
 					</main>
 				</div>
 			</BrowserRouter>

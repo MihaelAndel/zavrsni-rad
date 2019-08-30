@@ -116,8 +116,21 @@ input {
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
+.grid-2stupca {
+	grid-template-columns: 1fr 1fr;
+}
+
+.grid-3stupca {
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
 .grid-2stupca-ulijevo {
 	grid-template-columns: 5fr 1fr;
+}
+
+.grid-2stupca-2reda {
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
 }
 
 .grid-1red {

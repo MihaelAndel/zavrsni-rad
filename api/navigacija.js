@@ -28,6 +28,12 @@ var poljeNavigacije = [
 		vrsteKorisnika: '3',
 		naziv: 'Upravljanje korisnicima',
 		putanja: '/upravljanje-korisnicima/'
+	},
+	{
+		id: 6,
+		vrsteKorisnika: '3',
+		naziv: 'Upisivanje statistike',
+		putanja: '/upisivanje-statistike/'
 	}
 ];
 
