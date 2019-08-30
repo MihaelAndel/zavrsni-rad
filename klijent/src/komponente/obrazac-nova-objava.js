@@ -32,8 +32,7 @@ class ObrazacNovaObjava extends React.Component {
 		var iskljucen =
 			this.state.naslov &&
 			this.state.tekst &&
-			(this.state.odabraneEkipe.length !== 0 ||
-				this.state.odabraneOsobe.length !== 0)
+			(this.state.odabraneEkipe.length !== 0 || this.state.odabraneOsobe.length !== 0)
 				? ''
 				: 'disabled';
 		if (!Cookies.get('korisnik') || Cookies.get('tip') === 1) {
@@ -43,7 +42,7 @@ class ObrazacNovaObjava extends React.Component {
 				return <Redirect to={`/objave/${this.state.id}`} />;
 			} else {
 				return (
-					<form>
+					<form className="grid">
 						<input
 							type="text"
 							id="naslov"
@@ -60,19 +59,13 @@ class ObrazacNovaObjava extends React.Component {
 							maxLength="1000"
 							onChange={this.UnesiTekst}
 							value={this.state.tekst}></textarea>
-						<select
-							id="osobe"
-							onChange={this.OznaciOdabrano}
-							size="10"
-							multiple>
+						<h3>Igrači</h3>
+						<select id="osobe" onChange={this.OznaciOdabrano} size="10" multiple>
 							{this.state.osobe}
 						</select>
 
-						<select
-							onChange={this.OznaciOdabrano}
-							id="ekipe"
-							size="10"
-							multiple>
+						<h3>Ekipe</h3>
+						<select onChange={this.OznaciOdabrano} id="ekipe" size="10" multiple>
 							{this.state.ekipe}
 						</select>
 						<input

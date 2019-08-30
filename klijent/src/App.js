@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import Ekipe from './pogledi/ekipe';
-import GlavnaNavigacija from './komponente/glavna-navigacija';
+import StvoriModeratora from './komponente/stvori-moderatora';
 import Zaglavlje from './komponente/zaglavlje';
 import Prijava from './komponente/prijava';
 import Registracija from './komponente/registracija';
@@ -28,30 +28,23 @@ class App extends React.Component {
 			<BrowserRouter>
 				<div className="aplikacija">
 					<Zaglavlje odjava={this.OdjaviKorisnika} />
-					<GlavnaNavigacija />
 					<main>
 						<Route exact path="/" component={Naslovna} />
 						<Route path="/ekipe" component={Ekipe} />
 						<Route path="/osobe" component={Osobe} />
-						<Route
-							exact
-							path="/registracija"
-							component={Registracija}
-						/>
+						<Route exact path="/registracija" component={Registracija} />
 						<Route
 							exact
 							path="/prijava"
 							render={props => (
-								<Prijava
-									{...props}
-									funkcija={this.PrijaviKorisnika}
-								/>
+								<Prijava {...props} funkcija={this.PrijaviKorisnika} />
 							)}
 						/>
+						<Route exact path="/nova-objava/" component={ObrazacNovaObjava} />
 						<Route
 							exact
-							path="/nova-objava/"
-							component={ObrazacNovaObjava}
+							path="/upravljanje-korisnicima/"
+							component={StvoriModeratora}
 						/>
 					</main>
 				</div>

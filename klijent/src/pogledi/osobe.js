@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Ucitavanje from '../komponente/ucitavanje';
 import PopisOsoba from '../komponente/popis-osoba';
 
 class Ekipe extends React.Component {
@@ -16,7 +17,7 @@ class Ekipe extends React.Component {
 
 	render() {
 		if (this.state.listaOsoba.length === 0) {
-			return <p>Loading...</p>;
+			return <Ucitavanje />;
 		} else {
 			return (
 				<div>
@@ -29,13 +30,11 @@ class Ekipe extends React.Component {
 	DohvatiOsobe() {
 		var korisnik = Cookies.get('id') ? Cookies.get('id') : '';
 		if (this.state.listaOsoba.length === 0) {
-			axios
-				.get(`/api/osobe/dohvati?korisnik=${korisnik}`)
-				.then(response => {
-					this.setState({
-						listaOsoba: response.data
-					});
+			axios.get(`/api/osobe/dohvati?korisnik=${korisnik}`).then(response => {
+				this.setState({
+					listaOsoba: response.data
 				});
+			});
 		}
 	}
 }

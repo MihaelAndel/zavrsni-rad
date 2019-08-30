@@ -14,9 +14,14 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'klijent/build')));
 
 app.post('/api/registriraj', (request, response) => {
-	var korisnickoIme = request.body.korisnickoIme;
-	var email = request.body.email;
-	registracija.RegistrirajKorisnika(email, korisnickoIme, poruka => {
+	var korisnik = {
+		korisnickoIme: request.body.korisnickoIme,
+		email: request.body.email,
+		ime: request.body.ime,
+		prezime: request.body.prezime
+	};
+
+	registracija.RegistrirajKorisnika(korisnik, poruka => {
 		response.json(poruka);
 	});
 });
@@ -53,7 +58,8 @@ app.get('/api/ekipe/dohvati', (request, response) => {
 		if (request.query.korisnik) {
 			var korisnikID = request.query.korisnik;
 			var sqlNePrati =
-				`SELECT * FROM Ekipa e WHERE NOT EXISTS ` + `(SELECT * FROM PratiEkipu p WHERE e.id = p.Ekipa_id AND '${korisnikID}' = p.Korisnik_id)`;
+				`SELECT * FROM Ekipa e WHERE NOT EXISTS ` +
+				`(SELECT * FROM PratiEkipu p WHERE e.id = p.Ekipa_id AND '${korisnikID}' = p.Korisnik_id)`;
 			var sqlPrati =
 				`SELECT e.id as id, e.naziv as naziv, e.lokacija as lokacija, e.arena as arena ` +
 				`FROM Ekipa e, PratiEkipu p WHERE p.Ekipa_id = e.id AND p.Korisnik_id = ${korisnikID}`;
@@ -83,7 +89,7 @@ app.get('/api/ekipe/dohvati', (request, response) => {
 });
 
 app.get('/api/ekipe/detaljno', (request, response) => {
-	var sql = `SELECT naziv FROM Ekipa WHERE id=${request.query.ekipa}`;
+	var sql = `SELECT * FROM Ekipa WHERE id=${request.query.ekipa}`;
 	baza.Upit(sql, (rezultat, error) => {
 		response.json(rezultat[0]);
 	});
@@ -106,13 +112,15 @@ app.post('/api/ekipe/podesiPracenje', (request, response) => {
 
 app.get('/api/osobe/dohvati', (request, response) => {
 	if (request.query.sve) {
-		var sqlSvi = 'SELECT o.id as id, o.ime as ime, o.prezime as prezime, e.naziv as ekipa ' + 'FROM Osoba o, Ekipa e ' + 'WHERE o.ekipa = e.id ORDER BY 3';
+		var sqlSvi =
+			'SELECT o.id as id, o.ime as ime, o.prezime as prezime, e.naziv as ekipa ' +
+			'FROM Osoba o, Ekipa e ' +
+			'WHERE o.ekipa = e.id ORDER BY 3';
 		baza.Upit(sqlSvi, (rezultat, error) => {
 			response.json(rezultat);
 		});
 	} else {
 		if (request.query.korisnik) {
-			console.log('prijavljen');
 			var korisnikID = request.query.korisnik;
 			var sqlNePrati =
 				`SELECT o.id as id, t.naziv as tip, o.pozicija as pozicija, o.ime as ime, o.prezime as prezime, o.broj as broj, e.naziv as ekipa ` +
@@ -138,7 +146,6 @@ app.get('/api/osobe/dohvati', (request, response) => {
 				});
 			});
 		} else {
-			console.log('neprijavljen');
 			var sql =
 				'SELECT o.id as id, t.naziv as tip, o.pozicija as pozicija, o.ime as ime, o.prezime as prezime, o.broj as broj, e.naziv as ekipa ' +
 				'FROM Osoba o, Ekipa e, TipOsobe t ' +
@@ -170,22 +177,20 @@ app.post('/api/osobe/podesiPracenje', (request, response) => {
 });
 
 app.get('/api/navigacija/dohvati', (request, response) => {
-	var korisnik = request.query.korisnik;
-	response.json(navigacija.GenerirajNavigaciju(korisnik));
+	response.json(navigacija.poljeNavigacije);
 });
 
-app.get('/api/objave/dohvati', (request, response) => {
+app.get('/api/objave/dohvati', (request, response, next) => {
 	var korisnik = request.query.korisnik;
 	if (korisnik) {
 		var sveObjave = [];
-		console.log(korisnik);
 		var sqlOsobe =
 			`SELECT o.datum, o.tekst as tekst, o.naslov as naslov, k.ime as ime, k.prezime as prezime ` +
 			`FROM Objava o, Korisnik k ` +
 			`WHERE o.autor = k.id ` +
 			`AND EXISTS (SELECT * FROM OsobaUObjavi, PratiOsobu WHERE o.id = OsobaUObjavi.Objava_id ` +
 			`AND ${korisnik} = PratiOsobu.Korisnik_id) ` +
-			`ORDER BY 1 DESC LIMIT 30`;
+			`ORDER BY 1 DESC LIMIT 25`;
 
 		var sqlEkipe =
 			`SELECT o.datum, o.tekst as tekst, o.naslov as naslov, k.ime as ime, k.prezime as prezime ` +
@@ -193,31 +198,52 @@ app.get('/api/objave/dohvati', (request, response) => {
 			`WHERE o.autor = k.id ` +
 			`AND EXISTS (SELECT * FROM EkipaUObjavi, PratiEkipu WHERE o.id = EkipaUObjavi.Objava_id ` +
 			`AND ${korisnik} = PratiEkipu.Korisnik_id) ` +
-			`ORDER BY 1 DESC LIMIT 30`;
+			`ORDER BY 1 DESC LIMIT 25`;
 
 		baza.Upit(sqlOsobe, (rezultatOsobe, error) => {
 			if (!error) {
 				baza.Upit(sqlEkipe, (rezultatEkipe, error) => {
 					if (!error) {
-						sveObjave = sveObjave.concat(rezultatOsobe);
-						for (var i = 0; i < rezultatEkipe.length; i++) {
-							var duplikat = false;
+						if (rezultatEkipe.length !== 0 || rezultatOsobe.length !== 0) {
+							sveObjave = sveObjave.concat(rezultatOsobe);
+							for (var i = 0; i < rezultatEkipe.length; i++) {
+								var duplikat = false;
 
-							for (var j = 0; j < sveObjave.length; j++) {
-								if (sveObjave[j].id === rezultatEkipe[i].id) duplikat = true;
-							}
+								for (var j = 0; j < sveObjave.length; j++) {
+									if (sveObjave[j].id === rezultatEkipe[i].id) duplikat = true;
+								}
 
-							if (!duplikat) {
-								var datumVrijeme = rezultatEkipe[i].datum.toString().split(' ');
-								rezultatEkipe[i].datum = datumVrijeme[1] + ' ' + datumVrijeme[2] + ' ' + datumVrijeme[3] + ' ' + datumVrijeme[4];
-								sveObjave.push(rezultatEkipe[i]);
+								if (!duplikat) {
+									sveObjave.push(rezultatEkipe[i]);
+								}
 							}
+							response.json(sveObjave);
+						} else {
+							var sqlSveObjave =
+								'SELECT o.datum, o.tekst as tekst, o.naslov as naslov, k.ime as ime, k.prezime as prezime ' +
+								'FROM Objava o, Korisnik k ' +
+								'WHERE k.id = o.autor ' +
+								'LIMIT 50';
+							baza.Upit(sqlSveObjave, (rezultat, error) => {
+								if (!error) {
+									response.json(rezultat);
+								}
+							});
 						}
-						// sveObjave = sveObjave.sort((a, b) => (a.datum > b.datum ? 1 : -1));
-						console.log(sveObjave);
-						response.json(sveObjave);
 					}
 				});
+			}
+		});
+	} else {
+		var sqlSveObjave =
+			'SELECT o.datum, o.tekst as tekst, o.naslov as naslov, k.ime as ime, k.prezime as prezime ' +
+			'FROM Objava o, Korisnik k ' +
+			'WHERE k.id = o.autor ' +
+			'ORDER BY 1 DESC ' +
+			'LIMIT 50';
+		baza.Upit(sqlSveObjave, (rezultat, error) => {
+			if (!error) {
+				response.json(rezultat);
 			}
 		});
 	}
@@ -231,14 +257,12 @@ app.post('/api/objave/objavi', (request, response) => {
 	var ekipe = request.body.ekipe;
 
 	var sqlObjava = `INSERT INTO Objava (autor, naslov, tekst, datum) VALUES(${korisnik}, '${naslov}', '${tekst}', NOW())`;
-	console.log(sqlObjava);
 	baza.Upit(sqlObjava, (rezultat, error) => {
 		if (!error) {
 			var objavaID = rezultat.insertId;
 			if (osobe.length !== 0) {
 				for (var i = 0; i < osobe.length; i++) {
 					var sqlOsoba = `INSERT INTO OsobaUObjavi VALUES(${osobe[i]}, ${objavaID})`;
-					console.log(sqlOsoba);
 					baza.Upit(sqlOsoba, (rezultat, error) => {
 						if (error) {
 							response.json('error');
@@ -249,7 +273,6 @@ app.post('/api/objave/objavi', (request, response) => {
 			if (ekipe.length !== 0) {
 				for (var i = 0; i < ekipe.length; i++) {
 					var sqlEkipa = `INSERT INTO EkipaUObjavi VALUES(${ekipe[i]}, ${objavaID})`;
-					console.log(sqlEkipa);
 					baza.Upit(sqlEkipa, (rezultat, error) => {
 						if (error) {
 							response.json('error');
@@ -257,6 +280,49 @@ app.post('/api/objave/objavi', (request, response) => {
 					});
 				}
 			}
+		} else {
+			response.json('error');
+		}
+	});
+});
+
+app.get('/api/korisnici/dohvati/moderatori', (request, response) => {
+	var sql = 'SELECT korisnickoIme, id, ime, prezime FROM Korisnik WHERE tipKorisnika = 2';
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json(rezultat);
+		}
+	});
+});
+
+app.get('/api/korisnici/dohvati/obicni', (request, response) => {
+	var sql = 'SELECT korisnickoIme, id, ime, prezime FROM Korisnik WHERE tipKorisnika = 1';
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json(rezultat);
+		}
+	});
+});
+
+app.post('/api/korisnici/pretvori', (request, response) => {
+	var korisnik = request.body.korisnikID;
+	var sql = `UPDATE Korisnik SET tipKorisnika = 2 WHERE id=${korisnik}`;
+	baza.Upit(sql, (rezultat, error) => {
+		console.log(error);
+		if (!error) {
+			response.json('ok');
+		} else {
+			response.json('error');
+		}
+	});
+});
+
+app.post('/api/korisnici/moderatori/pretvori', (request, response) => {
+	var korisnik = request.body.korisnikID;
+	var sql = `UPDATE Korisnik SET tipKorisnika = 1 WHERE id=${korisnik}`;
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json('ok');
 		} else {
 			response.json('error');
 		}

@@ -23,43 +23,41 @@ class Prijava extends React.Component {
 	}
 
 	render() {
-		var ukljucen =
-			this.state.greskaKorisnickoIme || this.state.greskaLozinka
-				? 'disabled'
-				: '';
+		var ukljucen = this.state.greskaKorisnickoIme || this.state.greskaLozinka ? 'disabled' : '';
 		var poruka = this.state.poruka;
 		if (this.state.redirect) {
 			return <Redirect to="/" />;
 		} else {
 			return (
 				<div
-					className="prijava"
+					className="grid blok obrazac obrub obrub-zaobljeno"
 					onMouseEnter={this.PodesiVidljivost}
 					onMouseLeave={this.PodesiVidljivost}>
-					<Poruka poruka={poruka} />
-					<p>Prijava</p>
-					<div>
-						<form>
-							<input
-								type="text"
-								placeholder="Korisničko ime"
-								onChange={this.ProvjeriKorisnickoIme}
-								value={this.state.korisnickoIme}
-							/>
-							<input
-								type="password"
-								placeholder="Lozinka"
-								onChange={this.ProvjeriLozinku}
-								value={this.state.lozinka}
-							/>
-							<input
-								type="submit"
-								value="Prijavi se"
-								onClick={this.PrijaviKorisnika}
-								disabled={ukljucen}
-							/>
-						</form>
-					</div>
+					<Poruka className="obavijest" poruka={poruka} />
+					<h2>Prijava</h2>
+					<form>
+						<input
+							className="blok margine-male"
+							type="text"
+							placeholder="Korisničko ime"
+							onChange={this.ProvjeriKorisnickoIme}
+							value={this.state.korisnickoIme}
+						/>
+						<input
+							className="blok margine-male"
+							type="password"
+							placeholder="Lozinka"
+							onChange={this.ProvjeriLozinku}
+							value={this.state.lozinka}
+						/>
+						<input
+							className="blok margine-male"
+							type="submit"
+							value="Prijavi se"
+							onClick={this.PrijaviKorisnika}
+							disabled={ukljucen}
+						/>
+					</form>
 				</div>
 			);
 		}

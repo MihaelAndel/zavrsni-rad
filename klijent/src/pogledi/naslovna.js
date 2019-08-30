@@ -19,11 +19,15 @@ class Naslovna extends React.Component {
 			return <Ucitavanje></Ucitavanje>;
 		} else {
 			return (
-				<div>
+				<div className="grid grid-4stupca">
 					{this.state.objave.map(objava => (
-						<div>
-							{objava.naslov} <br />
-							{objava.datum} - {objava.vrijeme}
+						<div
+							key={objava.id}
+							id={objava.id}
+							className="blok blok-podaci obrub obrub-zaobljeno pozadina">
+							{objava.naslov} ({objava.prezime},{objava.ime})<br />
+							Napisano: {objava.datum} - {objava.vrijeme}
+							<p>{objava.tekst}</p>
 						</div>
 					))}
 				</div>
@@ -32,12 +36,23 @@ class Naslovna extends React.Component {
 	}
 
 	DohvatiObjave() {
-		axios.get(`/api/objave/dohvati?korisnik=${Cookies.get('id')}`).then(rezultat => {
-			this.setState({
-				objave: rezultat.data
+		var korisnik = Cookies.get('id');
+		if (korisnik) {
+			axios.get(`/api/objave/dohvati?korisnik=${korisnik}`).then(rezultat => {
+				console.log(rezultat.data);
+				this.setState({
+					objave: rezultat.data
+				});
+				this.SrediDatume();
 			});
-			this.SrediDatume();
-		});
+		} else {
+			axios.get(`/api/objave/dohvati`).then(rezultat => {
+				this.setState({
+					objave: rezultat.data
+				});
+				this.SrediDatume();
+			});
+		}
 	}
 
 	SrediDatume() {

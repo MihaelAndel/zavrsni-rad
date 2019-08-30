@@ -23,11 +23,8 @@ class Ekipe extends React.Component {
 		} else {
 			return (
 				<div>
-					<PopisEkipa
-						putanja={this.props.match.url}
-						lista={this.state.listaEkipa}
-					/>
-					<Route path="/ekipe/:id" component={EkipaDetaljno} />
+					<PopisEkipa putanja={this.props.match.url} lista={this.state.listaEkipa} />
+					<Route path="/ekipe/:id/:prati" component={EkipaDetaljno} />
 				</div>
 			);
 		}
@@ -36,13 +33,11 @@ class Ekipe extends React.Component {
 	DohvatiEkipe() {
 		var korisnik = Cookies.get('id') ? Cookies.get('id') : '';
 		if (this.state.listaEkipa.length === 0) {
-			axios
-				.get(`/api/ekipe/dohvati?korisnik=${korisnik}`)
-				.then(response => {
-					this.setState({
-						listaEkipa: response.data
-					});
+			axios.get(`/api/ekipe/dohvati?korisnik=${korisnik}`).then(response => {
+				this.setState({
+					listaEkipa: response.data
 				});
+			});
 		}
 	}
 }

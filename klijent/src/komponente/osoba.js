@@ -13,12 +13,10 @@ class Osoba extends React.Component {
 
 	render() {
 		var iskljucen = Cookies.get('korisnik') ? '' : 'disabled';
-		var tekstGumba = this.state.prati
-			? 'Prestani pratiti'
-			: 'Počni pratiti';
+		var tekstGumba = this.state.prati ? 'Prestani pratiti' : 'Počni pratiti';
 		var stanje = this.state.prati ? 'Da' : 'Ne';
 		return (
-			<div className="blok ekipa" id={this.props.id}>
+			<div className="blok blok-podaci obrub obrub-zaobljeno pozadina" id={this.props.id}>
 				<span>
 					<label>Ime:</label> {this.props.ime}
 				</span>

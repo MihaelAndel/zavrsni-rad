@@ -1,4 +1,4 @@
-var navigacija = [
+var poljeNavigacije = [
 	{
 		id: 1,
 		vrsteKorisnika: '1234',
@@ -22,21 +22,15 @@ var navigacija = [
 		vrsteKorisnika: '23',
 		naziv: 'Stvori objavu',
 		putanja: '/nova-objava/'
+	},
+	{
+		id: 5,
+		vrsteKorisnika: '3',
+		naziv: 'Upravljanje korisnicima',
+		putanja: '/upravljanje-korisnicima/'
 	}
 ];
 
-function GenerirajNavigaciju(tipKorisnika) {
-	var rezultat = [];
-	var tip = tipKorisnika === '' ? '4' : tipKorisnika.toString();
-	navigacija.forEach(poveznica => {
-		if (poveznica.vrsteKorisnika.indexOf(tip) !== -1) {
-			rezultat.push(poveznica);
-		}
-	});
-
-	return rezultat;
-}
-
 module.exports = {
-	GenerirajNavigaciju
+	poljeNavigacije
 };

@@ -3,7 +3,7 @@ import Osoba from './osoba';
 
 function PopisOsoba(props) {
 	return (
-		<ul>
+		<div className="grid gri-repeat-red grid-4stupca">
 			{props.lista.map(osoba => (
 				<Osoba
 					id={osoba.id}
@@ -16,7 +16,7 @@ function PopisOsoba(props) {
 					prati={osoba.prati}
 					tip={osoba.tip}></Osoba>
 			))}
-		</ul>
+		</div>
 	);
 }
 

@@ -11,6 +11,9 @@ class GlavnaNavigacija extends React.Component {
 		};
 
 		this.DohvatiPoveznice();
+		setInterval(() => {
+			if (this.state.poveznice.length > 0) this.SrediPoveznice();
+		}, 500);
 	}
 
 	render() {
@@ -18,7 +21,9 @@ class GlavnaNavigacija extends React.Component {
 			<nav id="glavna-navigacija">
 				{this.state.poveznice.map(poveznica => (
 					<Link key={poveznica.id} to={poveznica.putanja}>
-						<button>{poveznica.naziv}</button>
+						<button hidden={poveznica.prikazi ? '' : 'hidden'}>
+							{poveznica.naziv}
+						</button>
 					</Link>
 				))}
 			</nav>
@@ -26,14 +31,32 @@ class GlavnaNavigacija extends React.Component {
 	}
 
 	DohvatiPoveznice() {
-		var korisnik = Cookies.get('tip') ? Cookies.get('tip') : '';
-		axios
-			.get(`/api/navigacija/dohvati?korisnik=${korisnik}`)
-			.then(response => {
-				this.setState({
-					poveznice: response.data
-				});
-			});
+		var korisnik = Cookies.get('tip') ? Cookies.get('tip') : 4;
+		korisnik = korisnik.toString();
+		axios.get(`/api/navigacija/dohvati`).then(response => {
+			for (var i = 0; i < response.data.length; i++) {
+				if (response.data[i].vrsteKorisnika.indexOf(korisnik) !== -1) {
+					response.data[i].prikazi = true;
+				} else {
+					response.data[i].prikazi = false;
+				}
+			}
+			this.setState({ poveznice: response.data });
+		});
+	}
+
+	SrediPoveznice() {
+		var polje = this.state.poveznice;
+		var korisnik = Cookies.get('tip') ? Cookies.get('tip') : 4;
+		korisnik = korisnik.toString();
+		for (var i = 0; i < polje.length; i++) {
+			if (polje[i].vrsteKorisnika.indexOf(korisnik) !== -1) {
+				polje[i].prikazi = true;
+			} else {
+				polje[i].prikazi = false;
+			}
+		}
+		this.setState({ poveznice: polje });
 	}
 }
 
