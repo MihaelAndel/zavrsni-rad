@@ -18,7 +18,7 @@ class Ekipa extends React.Component {
 		var tekstGumb = this.state.prati ? 'Prestani pratiti' : 'Počni pratiti';
 		var iskljucen = Cookies.get('korisnik') ? '' : 'disabled';
 		return (
-			<div className="blok blok-podaci obrub obrub-zaobljeno pozadina">
+			<div className="blok blok-podaci obrub-tamno obrub-zaobljeno pozadina">
 				<Link to={`/ekipe/${this.props.id}/${this.state.prati}`} key={this.props.id}>
 					<div id={this.props.id}>
 						<span>

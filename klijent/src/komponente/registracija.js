@@ -33,51 +33,52 @@ class Registracija extends React.Component {
 			this.state.prezime === ''
 				? 'disabled'
 				: '';
-		var poruka = this.state.greskaRegistracije ? 'Dogodila se greška, pokušajte ponovo!' : '';
 		if (this.state.redirect) {
 			return <Redirect to="/" />;
 		} else {
 			return (
-				<div className="blok grid obrazac obrub obrub-zaobljeno obrub">
-					<Poruka className="obavijest" poruka={poruka} />
-					<h2>Registracija</h2>
-					<form autoComplete="off" id="form-registracija">
-						<input
-							className="blok margine-male"
-							onInput={this.ProvjeriEmail}
-							id="emailAdresa"
-							type="text"
-							placeholder="E-mail adresa"
-						/>
-						<input
-							className="blok margine-male"
-							onInput={this.ProvjeriKorisnickoIme}
-							id="korisnickoIme"
-							type="text"
-							placeholder="Korisničko ime"
-						/>
-						<input
-							className="blok margine-male"
-							onInput={this.ProvjeriIme}
-							id="ime"
-							type="text"
-							placeholder="Ime"
-						/>
-						<input
-							className="blok margine-male"
-							onInput={this.ProvjeriPrezime}
-							id="prezime"
-							type="text"
-							placeholder="Prezime"
-						/>
-						<input
-							className="blok margine-male"
-							type="submit"
-							onClick={this.RegistrirajKorisnika}
-							disabled={iskljucen}
-							value="Registriraj se!"
-						/>
-					</form>
+				<div>
+					<Poruka poruka={this.state.poruka} />
+					<div className="blok grid obrazac obrub-zaobljeno obrub-tamno pozadina-neutral-srednje">
+						<h2>Registracija</h2>
+						<form autoComplete="off" id="form-registracija">
+							<input
+								className="blok margine-male"
+								onInput={this.ProvjeriEmail}
+								id="emailAdresa"
+								type="text"
+								placeholder="E-mail adresa"
+							/>
+							<input
+								className="blok margine-male"
+								onInput={this.ProvjeriKorisnickoIme}
+								id="korisnickoIme"
+								type="text"
+								placeholder="Korisničko ime"
+							/>
+							<input
+								className="blok margine-male"
+								onInput={this.ProvjeriIme}
+								id="ime"
+								type="text"
+								placeholder="Ime"
+							/>
+							<input
+								className="blok margine-male"
+								onInput={this.ProvjeriPrezime}
+								id="prezime"
+								type="text"
+								placeholder="Prezime"
+							/>
+							<input
+								className="blok margine-male"
+								type="submit"
+								onClick={this.RegistrirajKorisnika}
+								disabled={iskljucen}
+								value="Registriraj se!"
+							/>
+						</form>
+					</div>
 				</div>
 			);
 		}
@@ -96,12 +97,27 @@ class Registracija extends React.Component {
 				.then(poruka => {
 					if (poruka === 'error') {
 						this.setState({ poruka: 'Greška kod registracije!' }, function() {
-							setInterval(() => {
+							setTimeout(() => {
 								this.setState({ poruka: '' });
 							}, 2000);
 						});
 					} else {
-						this.setState({ redirect: true });
+						this.setState(
+							{
+								email: '',
+								korisnickoIme: '',
+								ime: '',
+								prezime: '',
+								poruka:
+									'Poslana je poruka na vašu e-mail adresu s lozinkom za vaš novi račun!'
+							},
+							() => {
+								this.render();
+								setTimeout(() => {
+									this.setState({ redirect: true });
+								}, 3000);
+							}
+						);
 					}
 				});
 		}

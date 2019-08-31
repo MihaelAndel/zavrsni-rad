@@ -24,7 +24,7 @@ class Naslovna extends React.Component {
 						<div
 							key={objava.id}
 							id={objava.id}
-							className="blok blok-podaci obrub obrub-zaobljeno pozadina">
+							className="blok blok-podaci obrub-tamno obrub-zaobljeno pozadina">
 							{objava.naslov} ({objava.prezime},{objava.ime})<br />
 							Napisano: {objava.datum} - {objava.vrijeme}
 							<p>{objava.tekst}</p>

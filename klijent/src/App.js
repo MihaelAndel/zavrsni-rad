@@ -4,7 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import Ekipe from './pogledi/ekipe';
 import StvoriModeratora from './komponente/stvori-moderatora';
-import Zaglavlje from './komponente/zaglavlje';
+import Navigacija from './komponente/navigacija';
 import Prijava from './komponente/prijava';
 import Registracija from './komponente/registracija';
 import Naslovna from './pogledi/naslovna';
@@ -12,6 +12,7 @@ import Osobe from './pogledi/osobe';
 import ObrazacNovaObjava from './komponente/obrazac-nova-objava';
 import DodajStatistiku from './komponente/obrazac-dodaj-statistiku';
 import './App.css';
+import Poruka from './komponente/poruka';
 
 class App extends React.Component {
 	constructor(props) {
@@ -28,8 +29,8 @@ class App extends React.Component {
 		return (
 			<BrowserRouter>
 				<div className="aplikacija">
-					<Zaglavlje odjava={this.OdjaviKorisnika} />
-					<main>
+					<Navigacija odjava={this.OdjaviKorisnika} />
+					<main className="sadrzaj">
 						<Route exact path="/" component={Naslovna} />
 						<Route path="/ekipe" component={Ekipe} />
 						<Route path="/osobe" component={Osobe} />

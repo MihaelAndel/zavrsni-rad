@@ -3,15 +3,15 @@ import Cookies from 'js-cookie';
 
 function Pozdrav(props) {
 	var korisnik = Cookies.get('korisnik');
-	var poruka = korisnik ? `Pozdrav, ${korisnik}!` : 'Pozdrav!';
-	var odjava = korisnik ? <button onClick={props.odjava}>Odjava</button> : '';
-
-	return (
-		<div>
-			<span>{poruka}</span>
-			{odjava}
+	var odjava = korisnik ? (
+		<div className="gumb-navigacija" onClick={props.odjava}>
+			Odjava
 		</div>
+	) : (
+		''
 	);
+
+	return odjava;
 }
 
 export default Pozdrav;

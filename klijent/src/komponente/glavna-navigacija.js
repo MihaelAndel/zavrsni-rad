@@ -20,10 +20,11 @@ class GlavnaNavigacija extends React.Component {
 		return (
 			<nav id="glavna-navigacija">
 				{this.state.poveznice.map(poveznica => (
-					<Link key={poveznica.id} to={poveznica.putanja}>
-						<button hidden={poveznica.prikazi ? '' : 'hidden'}>
-							{poveznica.naziv}
-						</button>
+					<Link
+						hidden={poveznica.prikazi ? '' : 'hidden'}
+						key={poveznica.id}
+						to={poveznica.putanja}>
+						<div className="blok gumb-navigacija">{poveznica.naziv}</div>
 					</Link>
 				))}
 			</nav>

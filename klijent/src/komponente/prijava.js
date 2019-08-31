@@ -29,35 +29,37 @@ class Prijava extends React.Component {
 			return <Redirect to="/" />;
 		} else {
 			return (
-				<div
-					className="grid blok obrazac obrub obrub-zaobljeno"
-					onMouseEnter={this.PodesiVidljivost}
-					onMouseLeave={this.PodesiVidljivost}>
+				<div>
 					<Poruka className="obavijest" poruka={poruka} />
-					<h2>Prijava</h2>
-					<form>
-						<input
-							className="blok margine-male"
-							type="text"
-							placeholder="Korisničko ime"
-							onChange={this.ProvjeriKorisnickoIme}
-							value={this.state.korisnickoIme}
-						/>
-						<input
-							className="blok margine-male"
-							type="password"
-							placeholder="Lozinka"
-							onChange={this.ProvjeriLozinku}
-							value={this.state.lozinka}
-						/>
-						<input
-							className="blok margine-male"
-							type="submit"
-							value="Prijavi se"
-							onClick={this.PrijaviKorisnika}
-							disabled={ukljucen}
-						/>
-					</form>
+					<div
+						className="blok grid obrazac obrub-zaobljeno obrub-tamno pozadina-neutral-srednje"
+						onMouseEnter={this.PodesiVidljivost}
+						onMouseLeave={this.PodesiVidljivost}>
+						<h2>Prijava</h2>
+						<form>
+							<input
+								className="blok margine-male"
+								type="text"
+								placeholder="Korisničko ime"
+								onChange={this.ProvjeriKorisnickoIme}
+								value={this.state.korisnickoIme}
+							/>
+							<input
+								className="blok margine-male"
+								type="password"
+								placeholder="Lozinka"
+								onChange={this.ProvjeriLozinku}
+								value={this.state.lozinka}
+							/>
+							<input
+								className="blok margine-male"
+								type="submit"
+								value="Prijavi se"
+								onClick={this.PrijaviKorisnika}
+								disabled={ukljucen}
+							/>
+						</form>
+					</div>
 				</div>
 			);
 		}
@@ -79,7 +81,7 @@ class Prijava extends React.Component {
 					this.setState({ redirect: true });
 				} else {
 					this.setState({ poruka: 'Neispravan unos!' }, function() {
-						setInterval(() => {
+						setTimeout(() => {
 							this.setState({ poruka: '' });
 						}, 2000);
 					});
