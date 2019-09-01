@@ -59,15 +59,17 @@ class ObrazacNovaObjava extends React.Component {
 							maxLength="1000"
 							onChange={this.UnesiTekst}
 							value={this.state.tekst}></textarea>
-						<h3>Osobe</h3>
-						<select id="osobe" onChange={this.OznaciOdabrano} size="10" multiple>
-							{this.state.osobe}
-						</select>
+						<div className="grid grid-2stupca">
+							<h3>Osobe</h3>
+							<h3>Ekipe</h3>
+							<select id="osobe" onChange={this.OznaciOdabrano} size="10" multiple>
+								{this.state.osobe}
+							</select>
 
-						<h3>Ekipe</h3>
-						<select onChange={this.OznaciOdabrano} id="ekipe" size="10" multiple>
-							{this.state.ekipe}
-						</select>
+							<select onChange={this.OznaciOdabrano} id="ekipe" size="10" multiple>
+								{this.state.ekipe}
+							</select>
+						</div>
 						<input
 							onClick={this.Objavi}
 							type="submit"
@@ -152,7 +154,6 @@ class ObrazacNovaObjava extends React.Component {
 				ekipe: this.state.odabraneEkipe
 			})
 			.then(rezultat => {
-				console.log(rezultat.data);
 				if (rezultat.data === 'error') {
 					return;
 				} else {

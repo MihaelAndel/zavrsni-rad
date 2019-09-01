@@ -11,9 +11,10 @@ html,
 body {
 	font-size: 20px;
 	--main-color-dark: #3a801f;
+	--main-color-light: #dafcc4;
 	--main-color: #afff8f;
-	--neutral-light: #ddfdd0;
-	--neutral-mid: #eeeeee;
+	--neutral-light: #e2e2e2;
+	--neutral-mid: #a0a0a0;
 	--neutral-dark: #434442;
 	--font-color-dark: #303030;
 }
@@ -29,6 +30,12 @@ a:visited {
 	text-decoration: none;
 }
 
+a:active {
+	background-color: var(--neutral-light);
+	color: var(--neutral-dark);
+	box-shadow: 4px 2px 6px #b6b6b6;
+}
+
 input {
 	font-size: 80%;
 }
@@ -36,6 +43,59 @@ input {
 ul {
 	padding: 0;
 	list-style-type: none;
+}
+
+button {
+	font-size: 80%;
+	background-color: var(--main-color-light);
+	border: 1px solid var(--neutral-dark);
+	cursor: pointer;
+}
+
+button:disabled {
+	cursor: auto;
+}
+
+input {
+	border: 1px solid var(--neutral-dark);
+	font-size: 100%;
+	background-color: var(--main-color-light);
+}
+
+input[type='submit'] {
+	cursor: pointer;
+	background-color: var(--main-color-light);
+}
+
+input[type='submit']:disabled {
+	cursor: auto;
+	background-color: var(--neutral-light);
+}
+
+textarea {
+	font-size: 90%;
+	border: 1px solid var(--neutral-dark);
+	background-color: var(--neutral-light);
+}
+
+select {
+	min-width: 100%;
+	font-size: 85%;
+	border: 1px solid var(--neutral-dark);
+	background-color: var(--neutral-light);
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--neutral-dark);
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--neutral-mid);
 }
 
 .aplikacija {
@@ -109,6 +169,14 @@ ul {
 	right: 50%;
 }
 
+.padding-bottom-small {
+	padding-bottom: 10px;
+}
+
+.padding-bottom-medium {
+	padding-bottom: 50px;
+}
+
 .obrub {
 	border: 2px solid var(--main-color-dark);
 }
@@ -153,6 +221,11 @@ ul {
 	row-gap: 1%;
 }
 
+.grid-detaljno {
+	grid-template-columns: 50% 50%;
+	grid-template-rows: 20% auto;
+}
+
 .grid-repeat-red {
 	grid-auto-rows: 20%;
 }
@@ -179,11 +252,15 @@ ul {
 
 .grid-2stupca-2reda {
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr;
 }
 
 .grid-1red {
 	grid-template-columns: 1fr 1fr 1fr;
+}
+
+.scrollable {
+	overflow-y: auto;
+	max-height: 300px;
 }
 
 .blok-podaci label {
@@ -225,4 +302,11 @@ ul {
 
 .margine-male {
 	margin: 7px;
+}
+
+.ucitavanje {
+	position: absolute;
+	left: 50%;
+	top: 45%;
+	bottom: 45%;
 }

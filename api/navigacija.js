@@ -34,6 +34,18 @@ var poljeNavigacije = [
 		vrsteKorisnika: '3',
 		naziv: 'Upisivanje statistike',
 		putanja: '/upisivanje-statistike/'
+	},
+	{
+		id: 7,
+		vrsteKorisnika: '3',
+		naziv: 'Dodavanje ekipe',
+		putanja: '/dodavanje-ekipe'
+	},
+	{
+		id: 8,
+		vrsteKorisnika: '3',
+		naziv: 'Dodavanje osobe',
+		putanja: '/dodavanje-osobe'
 	}
 ];
 

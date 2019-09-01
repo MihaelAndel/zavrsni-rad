@@ -1,13 +1,7 @@
 import React from 'react';
 
 function Ucitavanje() {
-	return (
-		<img
-			width="100"
-			className="blok-slika rotiranje centar blok"
-			src="../loading.png"
-		/>
-	);
+	return <h2 className="ucitavanje">Učitavanje...</h2>;
 }
 
 export default Ucitavanje;

@@ -3,6 +3,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Ucitavanje from '../komponente/ucitavanje';
 import PopisOsoba from '../komponente/popis-osoba';
+import { Route } from 'react-router-dom';
+import OsobaDetaljno from '../komponente/osoba-detaljno';
 
 class Ekipe extends React.Component {
 	constructor(props) {
@@ -22,6 +24,7 @@ class Ekipe extends React.Component {
 			return (
 				<div>
 					<PopisOsoba lista={this.state.listaOsoba} />;
+					<Route path="/osobe/:id" component={OsobaDetaljno} />
 				</div>
 			);
 		}

@@ -47,7 +47,7 @@ class DodajStatistiku extends React.Component {
 		var ekipaIskljucen = this.ProvjeriUnosEkipa() ? '' : 'disabled';
 		return (
 			<div className="grid grid-2stupca">
-				<form className="grid grid-2stupca-2reda">
+				<form className="grid grid-2stupca-2reda obrub-zaobljeno obrub-tamno pozadina-neutral-srednje padding-bottom-medium">
 					<h3>Osobe</h3>
 					<select id="oID" onChange={this.ObradiUnos}>
 						<option key="0" value=""></option>
@@ -164,7 +164,7 @@ class DodajStatistiku extends React.Component {
 						value="Dodaj"
 					/>
 				</form>
-				<form className="grid" className="grid grid-2stupca">
+				<form className="grid grid-2stupca obrub-zaobljeno obrub-tamno pozadina-neutral-srednje padding-bottom-medium">
 					<h3>Ekipe</h3>
 					<select onChange={this.ObradiUnos} id="eID">
 						<option key="0" value=""></option>

@@ -88,6 +88,22 @@ app.get('/api/ekipe/dohvati', (request, response) => {
 	}
 });
 
+app.post('/api/ekipe/dodaj', (request, response) => {
+	var naziv = request.body.naziv;
+	var lokacija = request.body.lokacija;
+	var arena = request.body.arena;
+
+	var sql = `INSERT INTO Ekipa (naziv, lokacija, arena) VALUE('${naziv}', '${lokacija}', '${arena}')`;
+
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json('ok');
+		} else {
+			response.json('error');
+		}
+	});
+});
+
 app.get('/api/ekipe/detaljno', (request, response) => {
 	var sql = `SELECT * FROM Ekipa WHERE id=${request.query.ekipa}`;
 	baza.Upit(sql, (rezultat, error) => {
@@ -158,6 +174,57 @@ app.get('/api/osobe/dohvati', (request, response) => {
 			});
 		}
 	}
+});
+
+app.post('/api/osobe/dodaj', (request, response) => {
+	var tip = request.body.tip;
+	var ime = request.body.ime;
+	var prezime = request.body.prezime;
+	var ekipa = request.body.ekipa;
+	var broj = request.body.broj;
+	var pozicija = request.body.pozicija ? request.body.pozicija : null;
+
+	var sql =
+		pozicija === '0'
+			? `INSERT INTO Osoba (ime, prezime, tipOsobe, pozicija, ekipa, broj) ` +
+			  `VALUES('${ime}', '${prezime}', ${tip}, NULL, ${ekipa}, ${broj})`
+			: `INSERT INTO Osoba (ime, prezime, tipOsobe, pozicija, ekipa, broj) ` +
+			  `VALUES('${ime}', '${prezime}', ${tip}, '${pozicija}', ${ekipa}, ${broj})`;
+
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json('ok');
+		} else {
+			response.json('error');
+		}
+	});
+});
+
+app.get('/api/osobe/tipovi/dohvati', (request, response) => {
+	var sql = 'SELECT * FROM TipOsobe';
+
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json(rezultat);
+		}
+	});
+});
+
+app.get('/api/osobe/pozicije/dohvati', (request, response) => {
+	var sql = 'SELECT * FROM Pozicija';
+
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json(rezultat);
+		}
+	});
+});
+
+app.get('/api/osobe/detaljno', (request, response) => {
+	var sql = `SELECT * FROM Osoba WHERE id=${request.query.osoba}`;
+	baza.Upit(sql, (rezultat, error) => {
+		response.json(rezultat[0]);
+	});
 });
 
 app.post('/api/osobe/podesiPracenje', (request, response) => {
@@ -423,10 +490,18 @@ app.get('/api/statistika/dohvati', (request, response) => {
 	var id = request.query.id;
 	var sql = `SELECT * FROM Statistika WHERE id=${id}`;
 	baza.Upit(sql, (rezultat, error) => {
-		console.log(error);
-		console.log(rezultat);
 		if (!error) {
 			response.json(rezultat[0]);
+		}
+	});
+});
+
+app.get('/api/statistika/osobe/sezone', (request, response) => {
+	var id = request.query.ekipa;
+	var sql = `SELECT id, sezona FROM Statistika WHERE igrac=${id}`;
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json(rezultat);
 		}
 	});
 });

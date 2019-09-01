@@ -11,8 +11,9 @@ import Naslovna from './pogledi/naslovna';
 import Osobe from './pogledi/osobe';
 import ObrazacNovaObjava from './komponente/obrazac-nova-objava';
 import DodajStatistiku from './komponente/obrazac-dodaj-statistiku';
+import DodajEkipu from './komponente/obrazac-dodaj-ekipu';
 import './App.css';
-import Poruka from './komponente/poruka';
+import DodajOsobu from './komponente/obrazac-dodaj-osobu';
 
 class App extends React.Component {
 	constructor(props) {
@@ -45,6 +46,8 @@ class App extends React.Component {
 						<Route exact path="/nova-objava" component={ObrazacNovaObjava} />
 						<Route exact path="/upravljanje-korisnicima" component={StvoriModeratora} />
 						<Route exact path="/upisivanje-statistike" component={DodajStatistiku} />
+						<Route exact path="/dodavanje-ekipe" component={DodajEkipu} />
+						<Route exact path="/dodavanje-osobe" component={DodajOsobu} />
 					</main>
 				</div>
 			</BrowserRouter>
