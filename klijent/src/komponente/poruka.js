@@ -6,7 +6,7 @@ class Poruka extends React.Component {
 		if (poruka === '') return <div />;
 		else {
 			return (
-				<div className="obavijest pozadina obrub-donji">
+				<div className="obavijest obrub-donji">
 					<p>{poruka}</p>
 				</div>
 			);

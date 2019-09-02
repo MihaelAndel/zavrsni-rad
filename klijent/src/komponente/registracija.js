@@ -39,39 +39,39 @@ class Registracija extends React.Component {
 			return (
 				<div className="grid grid-centar">
 					<Poruka poruka={this.state.poruka} />
-					<div className="blok grid obrazac obrub-zaobljeno obrub-tamno pozadina-neutral-srednje">
+					<div className="blok grid grid-centar obrazac obrub-zaobljeno obrub-tamno pozadina-neutral-srednje">
 						<h2>Registracija</h2>
-						<form autoComplete="off" id="form-registracija">
+						<form autoComplete="off">
 							<input
-								className="blok margine-male"
+								className="blok margin-small"
 								onInput={this.ProvjeriEmail}
 								id="emailAdresa"
 								type="text"
 								placeholder="E-mail adresa"
 							/>
 							<input
-								className="blok margine-male"
+								className="blok margin-small"
 								onInput={this.ProvjeriKorisnickoIme}
 								id="korisnickoIme"
 								type="text"
 								placeholder="Korisničko ime"
 							/>
 							<input
-								className="blok margine-male"
+								className="blok margin-small"
 								onInput={this.ProvjeriIme}
 								id="ime"
 								type="text"
 								placeholder="Ime"
 							/>
 							<input
-								className="blok margine-male"
+								className="blok margin-small"
 								onInput={this.ProvjeriPrezime}
 								id="prezime"
 								type="text"
 								placeholder="Prezime"
 							/>
 							<input
-								className="blok margine-male"
+								className="blok margin-small"
 								type="submit"
 								onClick={this.RegistrirajKorisnika}
 								disabled={iskljucen}

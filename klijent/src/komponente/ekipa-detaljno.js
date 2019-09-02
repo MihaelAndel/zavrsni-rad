@@ -26,31 +26,27 @@ class EkipaDetaljno extends React.Component {
 				<div>
 					<div onClick={this.VratiSe} className="blok odbaci prozirno"></div>
 
-					<div className="grid grid-detaljno detaljno obrub pozadina pozadina-neutral">
-						<div className="grid-element grid grid-centar">
-							<h3>
-								{this.state.lokacija} {this.state.naziv}
-							</h3>
-						</div>
+					<div className="grid grid-detaljno detaljno obrub pozadina">
+						<h3 className="tekst-center">
+							{this.state.lokacija} {this.state.naziv}
+						</h3>
 
-						<div className="grid grid-centar">
-							<div>
-								<h4>Sezone</h4>
-							</div>
-							<div className="blok grid-element">
-								<select onChange={this.DohvatiStatistiku}>
-									<option value="0">Odaberite sezonu</option>
-									{this.state.sezone.map(sezona => (
-										<option key={sezona.id} value={sezona.id}>
-											{sezona.sezona}
-										</option>
-									))}
-								</select>
-							</div>
+						<div className="grid tekst-center">
+							<h4>Sezone</h4>
+							<select
+								className="blok blok-small margin-auto"
+								onChange={this.DohvatiStatistiku}>
+								<option value="0">Odaberite sezonu</option>
+								{this.state.sezone.map(sezona => (
+									<option key={sezona.id} value={sezona.id}>
+										{sezona.sezona}
+									</option>
+								))}
+							</select>
 						</div>
 						{this.state.odabranaSezona ? (
-							<div className="grid-element">
-								<h4>Sezonska statistika</h4>
+							<div className="grid-elemenent margin-auto">
+								<h4 className="tekst-center">Sezonska statistika</h4>
 								<div className="scrollable obrub pozadina-neutral-svjetlo padding-small">
 									<ul>
 										<li>Poeni po utakmici - {this.state.statistika.poeni}</li>
@@ -89,8 +85,8 @@ class EkipaDetaljno extends React.Component {
 						)}
 
 						{this.state.odabranaSezona ? (
-							<div className="grid-element">
-								<h4>Utakmice</h4>
+							<div className="grid-element margin-auto">
+								<h4 className="tekst-center">Utakmice</h4>
 								<div className="scrollable obrub pozadina-neutral-svjetlo padding-small">
 									<ul>
 										<li>Poeni po utakmici - {this.state.statistika.poeni}</li>

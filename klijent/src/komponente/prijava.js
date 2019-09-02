@@ -30,7 +30,7 @@ class Prijava extends React.Component {
 		} else {
 			return (
 				<div className="grid grid-centar">
-					<Poruka className="obavijest" poruka={poruka} />
+					<Poruka className="obavijest" poruka={this.state.poruka} />
 					<div
 						className="blok grid grid-centar obrazac obrub-zaobljeno obrub-tamno pozadina-neutral-srednje"
 						onMouseEnter={this.PodesiVidljivost}
@@ -38,21 +38,21 @@ class Prijava extends React.Component {
 						<h2>Prijava</h2>
 						<form>
 							<input
-								className="blok margine-male"
+								className="blok margin-small"
 								type="text"
 								placeholder="Korisničko ime"
 								onChange={this.ProvjeriKorisnickoIme}
 								value={this.state.korisnickoIme}
 							/>
 							<input
-								className="blok margine-male"
+								className="blok margin-small"
 								type="password"
 								placeholder="Lozinka"
 								onChange={this.ProvjeriLozinku}
 								value={this.state.lozinka}
 							/>
 							<input
-								className="blok margine-male"
+								className="blok margin-small"
 								type="submit"
 								value="Prijavi se"
 								onClick={this.PrijaviKorisnika}
