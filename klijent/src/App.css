@@ -86,7 +86,7 @@ select {
 
 ::-webkit-scrollbar-thumb {
 	background: var(--neutral-dark);
-	border-radius: 10px;
+	žborder-radius: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -110,6 +110,7 @@ select {
 }
 
 .navigacija {
+	grid-template-rows: 2fr 20fr 1fr;
 	text-align: center;
 	position: fixed;
 	height: 100%;

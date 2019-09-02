@@ -9,6 +9,7 @@ function Navigacija(props) {
 	if (!korisnik) {
 		return (
 			<div className="navigacija grid">
+				<div></div>
 				<header className="grid">
 					<GlavnaNavigacija />
 					<nav>
@@ -25,6 +26,7 @@ function Navigacija(props) {
 	} else {
 		return (
 			<div className="navigacija grid">
+				<div></div>
 				<header>
 					<GlavnaNavigacija />
 					<nav>
