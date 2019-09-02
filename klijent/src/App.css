@@ -103,6 +103,7 @@ select {
 .obavijest {
 	position: fixed;
 	top: 0;
+	left: 0;
 	width: 100%;
 	z-index: 10;
 	text-align: center;
@@ -255,6 +256,8 @@ select {
 }
 
 .obrazac {
+	box-sizing: border-box;
+	width: 80%;
 	padding: 1%;
 	padding-bottom: 5%;
 }

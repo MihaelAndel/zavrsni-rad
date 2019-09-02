@@ -29,10 +29,10 @@ class Prijava extends React.Component {
 			return <Redirect to="/" />;
 		} else {
 			return (
-				<div>
+				<div className="grid grid-centar">
 					<Poruka className="obavijest" poruka={poruka} />
 					<div
-						className="blok grid obrazac obrub-zaobljeno obrub-tamno pozadina-neutral-srednje"
+						className="blok grid grid-centar obrazac obrub-zaobljeno obrub-tamno pozadina-neutral-srednje"
 						onMouseEnter={this.PodesiVidljivost}
 						onMouseLeave={this.PodesiVidljivost}>
 						<h2>Prijava</h2>

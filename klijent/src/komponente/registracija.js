@@ -37,7 +37,7 @@ class Registracija extends React.Component {
 			return <Redirect to="/" />;
 		} else {
 			return (
-				<div>
+				<div className="grid grid-centar">
 					<Poruka poruka={this.state.poruka} />
 					<div className="blok grid obrazac obrub-zaobljeno obrub-tamno pozadina-neutral-srednje">
 						<h2>Registracija</h2>
