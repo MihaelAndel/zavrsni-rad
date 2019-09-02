@@ -46,8 +46,8 @@ class DodajStatistiku extends React.Component {
 		var osobaIskljucen = this.ProvjeriUnosOsoba() ? '' : 'disabled';
 		var ekipaIskljucen = this.ProvjeriUnosEkipa() ? '' : 'disabled';
 		return (
-			<div className="grid grid-2stupca">
-				<form className="grid grid-2stupca-2reda obrub-zaobljeno obrub-tamno pozadina-neutral-srednje padding-bottom-medium">
+			<div className="grid grid-centar">
+				<form className="obrazac grid grid-element grid-2stupca obrub-zaobljeno obrub-tamno pozadina-neutral-srednje padding-bottom-medium">
 					<h3>Osobe</h3>
 					<select id="oID" onChange={this.ObradiUnos}>
 						<option key="0" value=""></option>
@@ -57,7 +57,7 @@ class DodajStatistiku extends React.Component {
 							</option>
 						))}
 					</select>
-					<label>Sezona:</label>
+					<label>Sezona</label>
 					<input
 						value={this.state.osobaSezona}
 						onChange={this.ObradiUnos}
@@ -164,7 +164,7 @@ class DodajStatistiku extends React.Component {
 						value="Dodaj"
 					/>
 				</form>
-				<form className="grid grid-2stupca obrub-zaobljeno obrub-tamno pozadina-neutral-srednje padding-bottom-medium">
+				<form className="obrazac grid grid-2stupca grid-element obrub-zaobljeno obrub-tamno pozadina-neutral-srednje padding-bottom-medium">
 					<h3>Ekipe</h3>
 					<select onChange={this.ObradiUnos} id="eID">
 						<option key="0" value=""></option>
@@ -174,7 +174,7 @@ class DodajStatistiku extends React.Component {
 							</option>
 						))}
 					</select>
-					<label>Sezona:</label>
+					<label>Sezona</label>
 					<input
 						value={this.state.ekipaSezona}
 						onChange={this.ObradiUnos}

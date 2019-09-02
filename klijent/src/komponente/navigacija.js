@@ -9,7 +9,7 @@ function Navigacija(props) {
 	if (!korisnik) {
 		return (
 			<div className="navigacija grid">
-				<header>
+				<header className="grid">
 					<GlavnaNavigacija />
 					<nav>
 						<Link to="/prijava">

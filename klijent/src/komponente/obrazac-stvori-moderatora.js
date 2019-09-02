@@ -20,7 +20,7 @@ class StvoriModeratora extends React.Component {
 
 	render() {
 		return (
-			<div className="grid grid-2stupca">
+			<div className="grid grid-2stupca grid-centar">
 				<form className="grid obrazac obrub-zaobljeno obrub-tamno pozadina-neutral-srednje padding-bottom-small">
 					<h3>Obični korisnici</h3>
 					<select onChange={this.OdaberiKorisnika}>

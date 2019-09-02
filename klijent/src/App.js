@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import Ekipe from './pogledi/ekipe';
-import StvoriModeratora from './komponente/stvori-moderatora';
+import StvoriModeratora from './komponente/obrazac-stvori-moderatora';
 import Navigacija from './komponente/navigacija';
 import Prijava from './komponente/prijava';
 import Registracija from './komponente/registracija';

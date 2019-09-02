@@ -42,7 +42,7 @@ class ObrazacNovaObjava extends React.Component {
 				return <Redirect to={`/objave/${this.state.id}`} />;
 			} else {
 				return (
-					<form className="grid">
+					<form className="grid grid-element">
 						<input
 							type="text"
 							id="naslov"
@@ -54,21 +54,32 @@ class ObrazacNovaObjava extends React.Component {
 						<textarea
 							placeholder="Tekst objave (do 1000 znakova)"
 							id="tekst"
-							rows="10"
-							cols="100"
+							rows="13"
+							cols="75"
 							maxLength="1000"
 							onChange={this.UnesiTekst}
 							value={this.state.tekst}></textarea>
 						<div className="grid grid-2stupca">
-							<h3>Osobe</h3>
-							<h3>Ekipe</h3>
-							<select id="osobe" onChange={this.OznaciOdabrano} size="10" multiple>
-								{this.state.osobe}
-							</select>
-
-							<select onChange={this.OznaciOdabrano} id="ekipe" size="10" multiple>
-								{this.state.ekipe}
-							</select>
+							<div>
+								<h3>Osobe</h3>
+								<select
+									id="osobe"
+									onChange={this.OznaciOdabrano}
+									size="10"
+									multiple>
+									{this.state.osobe}
+								</select>
+							</div>
+							<div>
+								<h3>Ekipe</h3>
+								<select
+									onChange={this.OznaciOdabrano}
+									id="ekipe"
+									size="10"
+									multiple>
+									{this.state.ekipe}
+								</select>
+							</div>
 						</div>
 						<input
 							onClick={this.Objavi}

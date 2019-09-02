@@ -23,6 +23,14 @@ class Ekipe extends React.Component {
 		} else {
 			return (
 				<div>
+					<div className="pretrazivanje">
+						<input
+							onChange={this.PretraziEkipe}
+							type="text"
+							id="pretrazi"
+							placeholder="Pretraživanje"
+						/>
+					</div>
 					<PopisOsoba lista={this.state.listaOsoba} />;
 					<Route path="/osobe/:id" component={OsobaDetaljno} />
 				</div>
