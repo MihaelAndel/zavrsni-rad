@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Ucitavanje from '../komponente/ucitavanje';
-import PopisOsoba from '../komponente/popis-osoba';
+import Ucitavanje from '../ucitavanje';
+import PopisOsoba from '../popis-osoba';
 import { Route } from 'react-router-dom';
-import OsobaDetaljno from '../komponente/osoba-detaljno';
+import OsobaDetaljno from '../osoba-detaljno';
 
 class Ekipe extends React.Component {
 	constructor(props) {

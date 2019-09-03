@@ -49,7 +49,28 @@ app.get('/api/provjeriKorisnika', (request, response) => {
 });
 
 app.get('/api/ekipe/dohvati', (request, response) => {
-	if (request.query.sve) {
+	if (request.query.gost && request.query.domacin) {
+		console.log('tu sam');
+		var domacin = request.query.domacin;
+		var gost = request.query.gost;
+
+		var sqlDomacin = `SELECT * FROM Ekipa WHERE id = ${domacin}`;
+		var sqlGost = `SELECT * FROM Ekipa WHERE id = ${gost}`;
+
+		var odgovor = [];
+
+		baza.Upit(sqlDomacin, (rezutlatDomacin, error) => {
+			if (!error) {
+				odgovor.push(rezutlatDomacin);
+				baza.Upit(sqlGost, (rezultatGost, error) => {
+					if (!error) {
+						odgovor.push(rezultatGost);
+						response.json(odgovor);
+					}
+				});
+			}
+		});
+	} else if (request.query.sve) {
 		var sqlSve = 'SELECT id, naziv, lokacija FROM Ekipa ORDER BY 2';
 		baza.Upit(sqlSve, (rezultat, error) => {
 			response.json(rezultat);
@@ -86,6 +107,20 @@ app.get('/api/ekipe/dohvati', (request, response) => {
 			});
 		}
 	}
+});
+
+app.get('/api/ekipe/bezUtakmice', (request, response) => {
+	var datum = request.query.datum;
+
+	var sql =
+		`SELECT * FROM Ekipa e WHERE NOT EXISTS ` +
+		`(SELECT * FROM Utakmica u WHERE (e.id = u.domacin OR e.id = u.gost) AND u.datum = '${datum}')`;
+
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json(rezultat);
+		}
+	});
 });
 
 app.post('/api/ekipe/dodaj', (request, response) => {
@@ -502,6 +537,30 @@ app.get('/api/statistika/osobe/sezone', (request, response) => {
 	baza.Upit(sql, (rezultat, error) => {
 		if (!error) {
 			response.json(rezultat);
+		}
+	});
+});
+
+app.post('/api/utakmice/dodaj', (request, response) => {
+	var domacin = request.body.domacin;
+	var gost = request.body.gost;
+	var pobjednik = request.body.pobjednik;
+	var sezona = request.body.sezona;
+	var datum = request.body.datum;
+	var poeniDomacin = request.body.poeniD;
+	var poeniGost = request.body.poeniG;
+
+	var sql =
+		`INSERT INTO Utakmica (domacin, gost, pobjednik, sezona, datum, poeniDomacin, poeniGost) ` +
+		`VALUES(${domacin}, ${gost}, ${pobjednik}, ${sezona}, '${datum}', ${poeniDomacin}, ${poeniGost})`;
+
+	console.log(sql);
+
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json('ok');
+		} else {
+			response.json('error');
 		}
 	});
 });

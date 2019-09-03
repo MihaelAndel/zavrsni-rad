@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import Poruka from './poruka';
+import Poruka from '../poruka';
 
 class DodajEkipu extends React.Component {
 	constructor(props) {

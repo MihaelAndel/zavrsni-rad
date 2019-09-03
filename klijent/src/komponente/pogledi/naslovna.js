@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Ucitavanje from '../komponente/ucitavanje';
+import Ucitavanje from '../ucitavanje';
 
 class Naslovna extends React.Component {
 	constructor(props) {

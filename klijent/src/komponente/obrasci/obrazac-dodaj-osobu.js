@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import Poruka from './poruka';
+import Poruka from '../poruka';
 import { Redirect } from 'react-router-dom';
 
 class DodajOsobu extends React.Component {

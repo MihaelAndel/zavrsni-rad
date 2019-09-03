@@ -11,15 +11,13 @@ class GlavnaNavigacija extends React.Component {
 		};
 
 		this.DohvatiPoveznice();
-		setInterval(() => {
-			if (this.state.poveznice.length > 0) this.SrediPoveznice();
-		}, 500);
 	}
 
 	render() {
+		var poveznice = this.SrediPoveznice();
 		return (
 			<nav id="glavna-navigacija">
-				{this.state.poveznice.map(poveznica => (
+				{poveznice.map(poveznica => (
 					<div>
 						<Link
 							hidden={poveznica.prikazi ? '' : 'hidden'}
@@ -60,7 +58,7 @@ class GlavnaNavigacija extends React.Component {
 				polje[i].prikazi = false;
 			}
 		}
-		this.setState({ poveznice: polje });
+		return polje;
 	}
 }
 

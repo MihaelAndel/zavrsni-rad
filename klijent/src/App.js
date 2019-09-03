@@ -2,22 +2,25 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import Ekipe from './pogledi/ekipe';
-import StvoriModeratora from './komponente/obrazac-stvori-moderatora';
+import Ekipe from './komponente/pogledi/ekipe';
+import StvoriModeratora from './komponente/obrasci/obrazac-stvori-moderatora';
 import Navigacija from './komponente/navigacija';
 import Prijava from './komponente/prijava';
 import Registracija from './komponente/registracija';
-import Naslovna from './pogledi/naslovna';
-import Osobe from './pogledi/osobe';
-import ObrazacNovaObjava from './komponente/obrazac-nova-objava';
-import DodajStatistiku from './komponente/obrazac-dodaj-statistiku';
-import DodajEkipu from './komponente/obrazac-dodaj-ekipu';
+import Naslovna from './komponente/pogledi/naslovna';
+import Osobe from './komponente/pogledi/osobe';
+import ObrazacNovaObjava from './komponente/obrasci/obrazac-nova-objava';
+import DodajStatistiku from './komponente/obrasci/obrazac-dodaj-statistiku';
+import DodajEkipu from './komponente/obrasci/obrazac-dodaj-ekipu';
+import DodajOsobu from './komponente/obrasci/obrazac-dodaj-osobu';
+import DodajUtakmicu from './komponente/obrasci/obrazac-dodaj-utakmicu';
 import './App.css';
-import DodajOsobu from './komponente/obrazac-dodaj-osobu';
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
+
+		document.title = 'Sportske novosti';
 
 		this.PrijaviKorisnika = this.PrijaviKorisnika.bind(this);
 		this.OdjaviKorisnika = this.OdjaviKorisnika.bind(this);
@@ -48,6 +51,7 @@ class App extends React.Component {
 						<Route exact path="/upisivanje-statistike" component={DodajStatistiku} />
 						<Route exact path="/dodavanje-ekipe" component={DodajEkipu} />
 						<Route exact path="/dodavanje-osobe" component={DodajOsobu} />
+						<Route path="/dodavanje-utakmice" component={DodajUtakmicu} />
 					</main>
 				</div>
 			</BrowserRouter>
