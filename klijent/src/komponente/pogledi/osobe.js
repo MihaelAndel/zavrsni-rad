@@ -11,10 +11,13 @@ class Ekipe extends React.Component {
 		super(props);
 
 		this.state = {
-			listaOsoba: []
+			listaOsoba: [],
+			osobePrikaz: []
 		};
 
 		this.DohvatiOsobe();
+
+		this.PretraziOsobe = this.PretraziOsobe.bind(this);
 	}
 
 	render() {
@@ -25,13 +28,13 @@ class Ekipe extends React.Component {
 				<div>
 					<div className="pretrazivanje">
 						<input
-							onChange={this.PretraziEkipe}
+							onChange={this.PretraziOsobe}
 							type="text"
 							id="pretrazi"
 							placeholder="Pretraživanje"
 						/>
 					</div>
-					<PopisOsoba lista={this.state.listaOsoba} />;
+					<PopisOsoba lista={this.state.osobePrikaz} />
 					<Route path="/osobe/:id" component={OsobaDetaljno} />
 				</div>
 			);
@@ -42,11 +45,38 @@ class Ekipe extends React.Component {
 		var korisnik = Cookies.get('id') ? Cookies.get('id') : '';
 		if (this.state.listaOsoba.length === 0) {
 			axios.get(`/api/osobe/dohvati?korisnik=${korisnik}`).then(response => {
+				var osobe = response.data;
+
+				osobe.forEach(osoba => {
+					osoba.pretrazi = osoba.ime + ' ' + osoba.prezime + ' ' + osoba.ekipa;
+				});
+
 				this.setState({
-					listaOsoba: response.data
+					listaOsoba: osobe,
+					osobePrikaz: osobe
 				});
 			});
 		}
+	}
+
+	PretraziOsobe(e) {
+		var vrijednost = e.target.value.toUpperCase();
+		var osobe = this.state.listaOsoba;
+		var osobeZaPrikaz = [];
+
+		if (vrijednost === '') {
+			osobe.forEach(osoba => {
+				osobeZaPrikaz.push(osoba);
+			});
+		} else {
+			osobe.forEach(osoba => {
+				if (osoba.pretrazi.toUpperCase().indexOf(vrijednost) !== -1) {
+					osobeZaPrikaz.push(osoba);
+				}
+			});
+		}
+
+		this.setState({ osobePrikaz: osobeZaPrikaz });
 	}
 }
 

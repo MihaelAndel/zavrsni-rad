@@ -211,6 +211,19 @@ app.get('/api/osobe/dohvati', (request, response) => {
 	}
 });
 
+app.get('/api/osobe/igraci/dohvati', (request, response) => {
+	var sql =
+		'SELECT o.id as id, o.ime as ime, o.prezime as prezime, e.naziv as ekipa ' +
+		'FROM Osoba o, Ekipa e ' +
+		'WHERE o.ekipa = e.id';
+
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json(rezultat);
+		}
+	});
+});
+
 app.post('/api/osobe/dodaj', (request, response) => {
 	var tip = request.body.tip;
 	var ime = request.body.ime;
@@ -491,7 +504,11 @@ app.post('/api/statistika/ekipe/upisi', (request, response) => {
 		`VALUES(NULL, ${ekipa}, ${sezona}, ${ppg}, ${apg}, ${rpg}, ${bpg}, ${spg}, ${fg}, ${p3}, ${ortg}, ${drtg})`;
 
 	baza.Upit(sql, (rezultat, error) => {
-		response.json('ok');
+		if (!error) {
+			response.json('ok');
+		} else {
+			response.json('error');
+		}
 	});
 });
 
@@ -507,7 +524,7 @@ app.get('/api/statistika/ekipe/postojanje', (request, response) => {
 			} else {
 				response.json('ok');
 			}
-		}
+		} else response.json('error');
 	});
 });
 
@@ -554,7 +571,37 @@ app.post('/api/utakmice/dodaj', (request, response) => {
 		`INSERT INTO Utakmica (domacin, gost, pobjednik, sezona, datum, poeniDomacin, poeniGost) ` +
 		`VALUES(${domacin}, ${gost}, ${pobjednik}, ${sezona}, '${datum}', ${poeniDomacin}, ${poeniGost})`;
 
-	console.log(sql);
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json('ok');
+		} else {
+			response.json('error');
+		}
+	});
+});
+
+app.get('/api/nagrade/dohvati', (request, response) => {
+	var igrac = request.query.igrac;
+	var sezona = request.query.sezona;
+
+	var sql =
+		`SELECT t.id as id, t.naziv as naziv ` +
+		`FROM TipNagrade t ` +
+		`WHERE NOT EXISTS(SELECT * FROM Nagrada n WHERE t.id = n.vrstaNagrade AND n.osoba = ${igrac} AND n.sezona = ${sezona})`;
+
+	baza.Upit(sql, (rezultat, error) => {
+		if (!error) {
+			response.json(rezultat);
+		}
+	});
+});
+
+app.post('/api/nagrade/dodaj', (request, response) => {
+	var nagrada = request.body.nagrada;
+	var igrac = request.body.igrac;
+	var sezona = request.body.sezona;
+
+	var sql = `INSERT INTO Nagrada (vrstaNagrade, osoba, sezona) VALUES(${nagrada}, ${igrac}, ${sezona})`;
 
 	baza.Upit(sql, (rezultat, error) => {
 		if (!error) {

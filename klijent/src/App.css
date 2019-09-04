@@ -277,8 +277,8 @@ select {
 }
 
 .detaljno {
-	height: 80%;
-	width: 80%;
+	min-height: 80%;
+	min-width: 80%;
 	box-sizing: border-box;
 	position: fixed;
 	top: 10%;

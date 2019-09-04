@@ -37,7 +37,7 @@ class Ekipa extends React.Component {
 						{this.props.arena}
 					</span>
 					<br />
-					{this.props.odabir ? (
+					{this.props.Odaberi ? (
 						<button id={this.props.id} onClick={this.props.Odaberi}>
 							Odaberi
 						</button>

@@ -125,6 +125,9 @@ class DodajOsobu extends React.Component {
 				this.setState({ broj: vrijednost });
 				break;
 			}
+			default: {
+				return;
+			}
 		}
 	}
 

@@ -76,7 +76,7 @@ class StvoriModeratora extends React.Component {
 
 	KorisnikUModerator(e) {
 		e.preventDefault();
-		if (this.state.odabraniKorisik != '') {
+		if (this.state.odabraniKorisik !== '') {
 			axios
 				.post('/api/korisnici/pretvori', {
 					korisnikID: this.state.odabraniKorisik
@@ -91,7 +91,7 @@ class StvoriModeratora extends React.Component {
 
 	ModeratorUKorisnik(e) {
 		e.preventDefault();
-		if (this.state.odabraniModerator != '') {
+		if (this.state.odabraniModerator !== '') {
 			axios
 				.post('/api/korisnici/moderatori/pretvori', {
 					korisnikID: this.state.odabraniModerator

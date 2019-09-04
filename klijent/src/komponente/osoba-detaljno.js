@@ -26,13 +26,15 @@ class OsobaDetaljno extends React.Component {
 			return (
 				<div>
 					<div onClick={this.VratiSe} className="blok odbaci prozirno"></div>
-					<div className="grid grid-detaljno detaljno obrub pozadina pozadina-neutral">
-						<h3>
+					<div className=" scrollable grid grid-detaljno detaljno obrub pozadina">
+						<h3 className="tekst-center">
 							{this.state.ime} {this.state.prezime}
 						</h3>
-						<div>
+						<div className="grid tekst-center">
 							<h4>Sezone</h4>
-							<select onChange={this.DohvatiStatistiku}>
+							<select
+								className="blok blok-small margin-auto"
+								onChange={this.DohvatiStatistiku}>
 								<option value="0">Odaberite sezonu</option>
 								{this.state.sezone.map(sezona => (
 									<option key={sezona.id} value={sezona.id}>
@@ -42,34 +44,49 @@ class OsobaDetaljno extends React.Component {
 							</select>
 						</div>
 						{this.state.odabranaSezona ? (
-							<div className=" scrollable obrub pozadina-neutral-svjetlo padding-small">
-								<ul>
-									<li>Poeni po utakmici - {this.state.statistika.poeni}</li>
-									<li>
-										Asistencije po utakmici -{' '}
-										{this.state.statistika.asistencije}
-									</li>
-									<li>Skokovi po utakmici - {this.state.statistika.skokovi}</li>
-									<li>Blokovi po utakmici - {this.state.statistika.blokovi}</li>
-									<li>
-										Ukradene lopte po utakmici -{' '}
-										{this.state.statistika.ukradeneLopte}
-									</li>
-									<li>
-										Postotak pogodaka - {this.state.statistika.postotakPogodaka}
-									</li>
-									<li>Postotak trica - {this.state.statistika.postotakTrica}</li>
-									<li>Ocjena napada - {this.state.statistika.ocjenaNapada}</li>
-									<li>Ocjena obrane - {this.state.statistika.ocjenaObrane}</li>
-								</ul>
+							<div className="grid-elemenent margin-auto">
+								<h4 className="tekst-center">Sezonska statistika</h4>
+								<div className="scrollable obrub pozadina-neutral-svjetlo padding-small">
+									<ul>
+										<li>Poeni po utakmici - {this.state.statistika.poeni}</li>
+										<li>
+											Asistencije po utakmici -{' '}
+											{this.state.statistika.asistencije}
+										</li>
+										<li>
+											Skokovi po utakmici - {this.state.statistika.skokovi}
+										</li>
+										<li>
+											Blokovi po utakmici - {this.state.statistika.blokovi}
+										</li>
+										<li>
+											Ukradene lopte po utakmici -{' '}
+											{this.state.statistika.ukradeneLopte}
+										</li>
+										<li>
+											Postotak pogodaka -{' '}
+											{this.state.statistika.postotakPogodaka}
+										</li>
+										<li>
+											Postotak trica - {this.state.statistika.postotakTrica}
+										</li>
+										<li>
+											Ocjena napada - {this.state.statistika.ocjenaNapada}
+										</li>
+										<li>
+											Ocjena obrane - {this.state.statistika.ocjenaObrane}
+										</li>
+									</ul>
+								</div>
 							</div>
 						) : (
 							<div></div>
 						)}
 
 						{this.state.odabranaSezona ? (
-							<div className=" scrollable obrub pozadina-neutral-svjetlo padding-small">
-								<ul>
+							<div className="grid-element margin-auto">
+								<h4 className="tekst-center">Sezonske nagrade</h4>
+								<ul className=" scrollable obrub pozadina-neutral-svjetlo padding-small">
 									<li>Poeni po utakmici - {this.state.statistika.poeni}</li>
 									<li>
 										Asistencije po utakmici -{' '}
@@ -87,8 +104,7 @@ class OsobaDetaljno extends React.Component {
 									<li>Postotak trica - {this.state.statistika.postotakTrica}</li>
 									<li>Ocjena napada - {this.state.statistika.ocjenaNapada}</li>
 									<li>Ocjena obrane - {this.state.statistika.ocjenaObrane}</li>
-								</ul>
-								<ul>
+
 									<li>Poeni po utakmici - {this.state.statistika.poeni}</li>
 									<li>
 										Asistencije po utakmici -{' '}
@@ -106,8 +122,6 @@ class OsobaDetaljno extends React.Component {
 									<li>Postotak trica - {this.state.statistika.postotakTrica}</li>
 									<li>Ocjena napada - {this.state.statistika.ocjenaNapada}</li>
 									<li>Ocjena obrane - {this.state.statistika.ocjenaObrane}</li>
-								</ul>
-								<ul>
 									<li>Poeni po utakmici - {this.state.statistika.poeni}</li>
 									<li>
 										Asistencije po utakmici -{' '}

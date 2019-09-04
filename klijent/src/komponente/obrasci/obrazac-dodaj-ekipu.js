@@ -91,18 +91,20 @@ class DodajEkipu extends React.Component {
 	ObradiUnos(e) {
 		var vrijednost = e.target.value;
 		switch (e.target.id) {
-			case 'naziv': {
+			case 'naziv':
 				this.setState({ naziv: vrijednost });
 				break;
-			}
-			case 'loc': {
+
+			case 'loc':
 				this.setState({ lokacija: vrijednost });
 				break;
-			}
-			case 'arena': {
+
+			case 'arena':
 				this.setState({ arena: vrijednost });
 				break;
-			}
+
+			default:
+				return;
 		}
 	}
 }

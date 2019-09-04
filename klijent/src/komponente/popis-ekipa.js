@@ -14,16 +14,17 @@ class PopisEkipa extends React.Component {
 
 	render() {
 		if (this.props.utakmica) {
-			var odabir = this.props.odabir ? this.props.odabir : '';
 			return (
 				<div>
 					<div className="grid grid-repeat-red grid-4stupca">
 						{this.props.lista.map(ekipa =>
-							ekipa.id == this.props.domacin ? null : (
+							ekipa.id.toString() === this.props.domacin ? null : (
 								<Ekipa
-									odabir={odabir}
-									klasa={this.state.odabranaEkipa == ekipa.id ? 'odabran' : ''}
-									ObradiUnos={this.props.ObradiUnos}
+									klasa={
+										this.state.odabranaEkipa === ekipa.id.toString()
+											? 'odabran'
+											: ''
+									}
 									Odaberi={this.OdaberiEkipu}
 									vrsta={this.props.vrsta}
 									key={ekipa.id}

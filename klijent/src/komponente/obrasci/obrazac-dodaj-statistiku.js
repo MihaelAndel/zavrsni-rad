@@ -374,6 +374,8 @@ class DodajStatistiku extends React.Component {
 			case 'eDRTG':
 				this.setState({ ekipaDRTG: vrijednost });
 				break;
+			default:
+				return;
 		}
 	}
 

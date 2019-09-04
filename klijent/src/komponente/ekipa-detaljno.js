@@ -25,12 +25,10 @@ class EkipaDetaljno extends React.Component {
 			return (
 				<div>
 					<div onClick={this.VratiSe} className="blok odbaci prozirno"></div>
-
 					<div className="grid grid-detaljno detaljno obrub pozadina">
 						<h3 className="tekst-center">
 							{this.state.lokacija} {this.state.naziv}
 						</h3>
-
 						<div className="grid tekst-center">
 							<h4>Sezone</h4>
 							<select
@@ -86,7 +84,7 @@ class EkipaDetaljno extends React.Component {
 
 						{this.state.odabranaSezona ? (
 							<div className="grid-element margin-auto">
-								<h4 className="tekst-center">Utakmice</h4>
+								<h4 className="tekst-center">Sezonske utakmice</h4>
 								<div className="scrollable obrub pozadina-neutral-svjetlo padding-small">
 									<ul>
 										<li>Poeni po utakmici - {this.state.statistika.poeni}</li>

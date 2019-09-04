@@ -22,11 +22,8 @@ class Osoba extends React.Component {
 					<label>Pozicija: </label>
 					{this.props.pozicija}
 				</span>
-			) : (
-				<span></span>
-			);
+			) : null;
 
-		var stanje = this.state.prati ? 'Da' : 'Ne';
 		return (
 			<div>
 				<Link to={`/osobe/${this.props.id}`}>

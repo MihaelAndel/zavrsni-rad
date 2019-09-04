@@ -25,33 +25,39 @@ var poljeNavigacije = [
 	},
 	{
 		id: 5,
-		vrsteKorisnika: '23',
+		vrsteKorisnika: '3',
 		naziv: 'Dodaj utakmicu',
 		putanja: '/dodavanje-utakmice'
 	},
 	{
 		id: 6,
 		vrsteKorisnika: '3',
-		naziv: 'Upravljanje korisnicima',
-		putanja: '/upravljanje-korisnicima/'
-	},
-	{
-		id: 7,
-		vrsteKorisnika: '3',
 		naziv: 'Upisivanje statistike',
 		putanja: '/upisivanje-statistike/'
 	},
 	{
-		id: 8,
+		id: 7,
 		vrsteKorisnika: '3',
 		naziv: 'Dodavanje ekipe',
 		putanja: '/dodavanje-ekipe'
 	},
 	{
-		id: 9,
+		id: 8,
 		vrsteKorisnika: '3',
 		naziv: 'Dodavanje osobe',
 		putanja: '/dodavanje-osobe'
+	},
+	{
+		id: 9,
+		vrsteKorisnika: '3',
+		naziv: 'Dodijela nagrada',
+		putanja: '/dodijela-nagrada'
+	},
+	{
+		id: 10,
+		vrsteKorisnika: '3',
+		naziv: 'Upravljanje korisnicima',
+		putanja: '/upravljanje-korisnicima/'
 	}
 ];
 

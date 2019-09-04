@@ -15,6 +15,7 @@ import DodajEkipu from './komponente/obrasci/obrazac-dodaj-ekipu';
 import DodajOsobu from './komponente/obrasci/obrazac-dodaj-osobu';
 import DodajUtakmicu from './komponente/obrasci/obrazac-dodaj-utakmicu';
 import './App.css';
+import DodijeliNagrade from './komponente/obrasci/obrazac-dodijeli-nagrade';
 
 class App extends React.Component {
 	constructor(props) {
@@ -52,6 +53,7 @@ class App extends React.Component {
 						<Route exact path="/dodavanje-ekipe" component={DodajEkipu} />
 						<Route exact path="/dodavanje-osobe" component={DodajOsobu} />
 						<Route path="/dodavanje-utakmice" component={DodajUtakmicu} />
+						<Route exact path="/dodijela-nagrada" component={DodijeliNagrade} />
 					</main>
 				</div>
 			</BrowserRouter>

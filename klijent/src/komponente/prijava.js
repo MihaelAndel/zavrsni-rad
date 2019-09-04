@@ -24,7 +24,6 @@ class Prijava extends React.Component {
 
 	render() {
 		var ukljucen = this.state.greskaKorisnickoIme || this.state.greskaLozinka ? 'disabled' : '';
-		var poruka = this.state.poruka;
 		if (this.state.redirect) {
 			return <Redirect to="/" />;
 		} else {

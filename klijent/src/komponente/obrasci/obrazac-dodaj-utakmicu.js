@@ -150,37 +150,42 @@ class DodajUtakmicu extends React.Component {
 						: 'disabled';
 				return (
 					<div className="grid grid-2stupca">
-						<h2>Domaćin</h2>
-						<h2>Gost</h2>
-						<Ekipa
-							id={this.state.domacin[0].id}
-							naziv={this.state.domacin[0].naziv}
-							lokacija={this.state.domacin[0].lokacija}
-							arena={this.state.domacin[0].arena}
-							utakmica="utakmica"
-						/>
-						<Ekipa
-							id={this.state.gost[0].id}
-							naziv={this.state.gost[0].naziv}
-							lokacija={this.state.gost[0].lokacija}
-							arena={this.state.gost[0].arena}
-							utakmica="utakmica"
-						/>
+						<form className="grid">
+							<h2>Domaćin</h2>
+							<Ekipa
+								id={this.state.domacin[0].id}
+								naziv={this.state.domacin[0].naziv}
+								lokacija={this.state.domacin[0].lokacija}
+								arena={this.state.domacin[0].arena}
+								utakmica="utakmica"
+							/>
+							<input
+								value={this.state.poeniDomacin}
+								onChange={this.ObradiPoeneDomacina}
+								className="grid-element-small"
+								type="number"
+								min="0"
+								placeholder="Poeni domaćina"></input>
+						</form>
+						<form className="grid">
+							<h2>Gost</h2>
+							<Ekipa
+								id={this.state.gost[0].id}
+								naziv={this.state.gost[0].naziv}
+								lokacija={this.state.gost[0].lokacija}
+								arena={this.state.gost[0].arena}
+								utakmica="utakmica"
+							/>
+							<input
+								value={this.state.poeniGost}
+								onChange={this.ObradiPoeneGosta}
+								className="grid-element-small"
+								type="number"
+								min="0"
+								placeholder="Poeni gosta"></input>
+						</form>
 						<input
-							value={this.state.poeniDomacin}
-							onChange={this.ObradiPoeneDomacina}
-							className="grid-element-small"
-							type="number"
-							min="0"
-							placeholder="Poeni domaćina"></input>
-						<input
-							value={this.state.poeniGost}
-							onChange={this.ObradiPoeneGosta}
-							className="grid-element-small"
-							type="number"
-							min="0"
-							placeholder="Poeni gosta"></input>
-						<input
+							className="grid"
 							onClick={this.DodajUtakmicu}
 							className="grid-element-small"
 							disabled={iskljucen}

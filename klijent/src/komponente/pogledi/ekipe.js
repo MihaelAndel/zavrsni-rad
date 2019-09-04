@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import PopisEkipa from '../popis-ekipa';
-import { Route, Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import EkipaDetaljno from '../ekipa-detaljno';
 import Ucitavanje from '../ucitavanje';
 
