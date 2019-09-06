@@ -558,6 +558,26 @@ app.get('/api/statistika/osobe/sezone', (request, response) => {
 	});
 });
 
+app.get('/api/utakmice/dohvati', (request, response) => {
+	var sezona = request.query.sezona;
+	var ekipa = request.query.ekipa;
+
+	var sql =
+		`SELECT u.datum as datum, u.poeniDomacin as poeniDomacin, u.poeniGost as poeniGost, e1.naziv as naziv1, e2.naziv as naziv2 ` +
+		`FROM Utakmica u, Ekipa e1, Ekipa e2 ` +
+		`WHERE u.sezona = ${sezona} AND (u.domacin = ${ekipa} OR u.gost = ${ekipa}) AND e1.id = u.domacin AND e2.id = u.gost`;
+	console.log(sql);
+	baza.Upit(sql, (rezultat, error) => {
+		console.log(rezultat);
+		console.log(error);
+		if (!error) {
+			response.json(rezultat);
+		} else {
+			response.json('error');
+		}
+	});
+});
+
 app.post('/api/utakmice/dodaj', (request, response) => {
 	var domacin = request.body.domacin;
 	var gost = request.body.gost;
@@ -584,16 +604,32 @@ app.get('/api/nagrade/dohvati', (request, response) => {
 	var igrac = request.query.igrac;
 	var sezona = request.query.sezona;
 
-	var sql =
-		`SELECT t.id as id, t.naziv as naziv ` +
-		`FROM TipNagrade t ` +
-		`WHERE NOT EXISTS(SELECT * FROM Nagrada n WHERE t.id = n.vrstaNagrade AND n.osoba = ${igrac} AND n.sezona = ${sezona})`;
+	if (request.query.sve) {
+		var sql =
+			`SELECT t.naziv as naziv ` +
+			`FROM TipNagrade t, Nagrada n ` +
+			`WHERE n.vrstaNagrade = t.id ` +
+			`AND n.osoba = ${igrac} AND n.sezona = ${sezona}`;
 
-	baza.Upit(sql, (rezultat, error) => {
-		if (!error) {
-			response.json(rezultat);
-		}
-	});
+		baza.Upit(sql, (rezultat, error) => {
+			if (!error) {
+				response.json(rezultat);
+			} else {
+				response.json('error');
+			}
+		});
+	} else {
+		var sql =
+			`SELECT t.id as id, t.naziv as naziv ` +
+			`FROM TipNagrade t ` +
+			`WHERE NOT EXISTS(SELECT * FROM Nagrada n WHERE t.id = n.vrstaNagrade AND n.osoba = ${igrac} AND n.sezona = ${sezona})`;
+
+		baza.Upit(sql, (rezultat, error) => {
+			if (!error) {
+				response.json(rezultat);
+			}
+		});
+	}
 });
 
 app.post('/api/nagrade/dodaj', (request, response) => {

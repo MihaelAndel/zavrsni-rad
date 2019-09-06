@@ -199,6 +199,10 @@ select {
 	background-color: var(--main-color);
 }
 
+.pozadina-svjetlo {
+	background-color: var(--main-color-light);
+}
+
 .pozadina-neutral-svjetlo {
 	background-color: var(--neutral-light);
 }

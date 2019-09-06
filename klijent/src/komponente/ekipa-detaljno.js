@@ -11,6 +11,7 @@ class EkipaDetaljno extends React.Component {
 			redirect: false,
 			sezone: [],
 			statistika: [],
+			utakmice: [],
 			odabranaSezona: ''
 		};
 
@@ -36,14 +37,14 @@ class EkipaDetaljno extends React.Component {
 								onChange={this.DohvatiStatistiku}>
 								<option value="0">Odaberite sezonu</option>
 								{this.state.sezone.map(sezona => (
-									<option key={sezona.id} value={sezona.id}>
+									<option key={sezona.id} value={`${sezona.id}-${sezona.sezona}`}>
 										{sezona.sezona}
 									</option>
 								))}
 							</select>
 						</div>
 						{this.state.odabranaSezona ? (
-							<div className="grid-elemenent margin-auto">
+							<div className="grid grid-elemenent margin-auto">
 								<h4 className="tekst-center">Sezonska statistika</h4>
 								<div className="scrollable obrub pozadina-neutral-svjetlo padding-small">
 									<ul>
@@ -83,122 +84,29 @@ class EkipaDetaljno extends React.Component {
 						)}
 
 						{this.state.odabranaSezona ? (
-							<div className="grid-element margin-auto">
+							<div className="grid grid-element margin-auto">
 								<h4 className="tekst-center">Sezonske utakmice</h4>
 								<div className="scrollable obrub pozadina-neutral-svjetlo padding-small">
 									<ul>
-										<li>Poeni po utakmici - {this.state.statistika.poeni}</li>
-										<li>
-											Asistencije po utakmici -{' '}
-											{this.state.statistika.asistencije}
-										</li>
-										<li>
-											Skokovi po utakmici - {this.state.statistika.skokovi}
-										</li>
-										<li>
-											Blokovi po utakmici - {this.state.statistika.blokovi}
-										</li>
-										<li>
-											Ukradene lopte po utakmici -{' '}
-											{this.state.statistika.ukradeneLopte}
-										</li>
-										<li>
-											Postotak pogodaka -{' '}
-											{this.state.statistika.postotakPogodaka}
-										</li>
-										<li>
-											Postotak trica - {this.state.statistika.postotakTrica}
-										</li>
-										<li>
-											Ocjena napada - {this.state.statistika.ocjenaNapada}
-										</li>
-										<li>
-											Ocjena obrane - {this.state.statistika.ocjenaObrane}
-										</li>
-										<li>Poeni po utakmici - {this.state.statistika.poeni}</li>
-										<li>
-											Asistencije po utakmici -{' '}
-											{this.state.statistika.asistencije}
-										</li>
-										<li>
-											Skokovi po utakmici - {this.state.statistika.skokovi}
-										</li>
-										<li>
-											Blokovi po utakmici - {this.state.statistika.blokovi}
-										</li>
-										<li>
-											Ukradene lopte po utakmici -{' '}
-											{this.state.statistika.ukradeneLopte}
-										</li>
-										<li>
-											Postotak pogodaka -{' '}
-											{this.state.statistika.postotakPogodaka}
-										</li>
-										<li>
-											Postotak trica - {this.state.statistika.postotakTrica}
-										</li>
-										<li>
-											Ocjena napada - {this.state.statistika.ocjenaNapada}
-										</li>
-										<li>
-											Ocjena obrane - {this.state.statistika.ocjenaObrane}
-										</li>
-										<li>Poeni po utakmici - {this.state.statistika.poeni}</li>
-										<li>
-											Asistencije po utakmici -{' '}
-											{this.state.statistika.asistencije}
-										</li>
-										<li>
-											Skokovi po utakmici - {this.state.statistika.skokovi}
-										</li>
-										<li>
-											Blokovi po utakmici - {this.state.statistika.blokovi}
-										</li>
-										<li>
-											Ukradene lopte po utakmici -{' '}
-											{this.state.statistika.ukradeneLopte}
-										</li>
-										<li>
-											Postotak pogodaka -{' '}
-											{this.state.statistika.postotakPogodaka}
-										</li>
-										<li>
-											Postotak trica - {this.state.statistika.postotakTrica}
-										</li>
-										<li>
-											Ocjena napada - {this.state.statistika.ocjenaNapada}
-										</li>
-										<li>
-											Ocjena obrane - {this.state.statistika.ocjenaObrane}
-										</li>
-										<li>Poeni po utakmici - {this.state.statistika.poeni}</li>
-										<li>
-											Asistencije po utakmici -{' '}
-											{this.state.statistika.asistencije}
-										</li>
-										<li>
-											Skokovi po utakmici - {this.state.statistika.skokovi}
-										</li>
-										<li>
-											Blokovi po utakmici - {this.state.statistika.blokovi}
-										</li>
-										<li>
-											Ukradene lopte po utakmici -{' '}
-											{this.state.statistika.ukradeneLopte}
-										</li>
-										<li>
-											Postotak pogodaka -{' '}
-											{this.state.statistika.postotakPogodaka}
-										</li>
-										<li>
-											Postotak trica - {this.state.statistika.postotakTrica}
-										</li>
-										<li>
-											Ocjena napada - {this.state.statistika.ocjenaNapada}
-										</li>
-										<li>
-											Ocjena obrane - {this.state.statistika.ocjenaObrane}
-										</li>
+										{this.state.utakmice.map(utakmica => (
+											<li>
+												<div className="obrub-tamno obrub-zaobljeno tekst-center pozadina-svjetlo margin-small grid grid-centar grid-2stupca">
+													<h4>{utakmica.datum.split('T')[0]}</h4>
+													<div></div>
+													<div>
+														{utakmica.naziv1}
+														<br />
+														{utakmica.poeniDomacin}
+													</div>
+													<div>
+														{utakmica.naziv2}
+														<br />
+														{utakmica.poeniGost}
+													</div>
+												</div>
+												<br />
+											</li>
+										))}
 									</ul>
 								</div>
 							</div>
@@ -223,7 +131,13 @@ class EkipaDetaljno extends React.Component {
 
 	DohvatiStatistiku(e) {
 		e.preventDefault();
-		var statistika = e.target.value;
+
+		this.setState({
+			odabranaSezona: ''
+		});
+
+		var statistika = e.target.value.split('-')[0];
+		var sezona = e.target.value.split('-')[1];
 
 		if (statistika !== '0') {
 			axios.get(`/api/statistika/dohvati?id=${statistika}`).then(rezultat => {
@@ -233,6 +147,17 @@ class EkipaDetaljno extends React.Component {
 					odabranaSezona: statistika
 				});
 			});
+
+			axios
+				.get(`/api/utakmice/dohvati?sezona=${sezona}&ekipa=${this.state.id}`)
+				.then(rezultat => {
+					console.log(rezultat);
+					if (rezultat.data === 'error') {
+						this.setState({ utakmice: 'error' });
+					} else {
+						this.setState({ utakmice: rezultat.data });
+					}
+				});
 		} else {
 			this.setState({
 				statistika: [],

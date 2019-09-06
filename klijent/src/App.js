@@ -14,8 +14,8 @@ import DodajStatistiku from './komponente/obrasci/obrazac-dodaj-statistiku';
 import DodajEkipu from './komponente/obrasci/obrazac-dodaj-ekipu';
 import DodajOsobu from './komponente/obrasci/obrazac-dodaj-osobu';
 import DodajUtakmicu from './komponente/obrasci/obrazac-dodaj-utakmicu';
-import './App.css';
 import DodijeliNagrade from './komponente/obrasci/obrazac-dodijeli-nagrade';
+import './App.css';
 
 class App extends React.Component {
 	constructor(props) {
