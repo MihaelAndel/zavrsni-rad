@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, Link, Redirect } from 'react-router-dom';
-import PopisEkipa from '../popis-ekipa';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import Ekipa from '../ekipa';
+import PopisEkipa from '../popis-ekipa';
 import Poruka from '../poruka';
 
 class DodajUtakmicu extends React.Component {
@@ -44,8 +45,8 @@ class DodajUtakmicu extends React.Component {
 	}
 
 	render() {
-		if (this.state.redirect) {
-			return <Redirect to="" />;
+		if (this.state.redirect || Cookies.get('tip') !== '3') {
+			return <Redirect to="/" />;
 		}
 		return (
 			<div>

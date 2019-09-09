@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import Poruka from '../poruka';
 
 class DodajEkipu extends React.Component {
@@ -24,7 +25,7 @@ class DodajEkipu extends React.Component {
 			this.state.naziv === '' || this.state.lokacija === '' || this.state.arena === ''
 				? 'disabled'
 				: '';
-		if (this.state.redirect) {
+		if (this.state.redirect || Cookies.get('tip') !== '3') {
 			return <Redirect to="/ekipe" />;
 		} else {
 			return (

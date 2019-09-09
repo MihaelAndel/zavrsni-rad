@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 class StvoriModeratora extends React.Component {
 	constructor(props) {
@@ -19,6 +21,7 @@ class StvoriModeratora extends React.Component {
 	}
 
 	render() {
+		if (Cookies.get('tip') !== '3') return <Redirect to="/" />;
 		return (
 			<div className="grid grid-2stupca grid-centar">
 				<form className="grid obrazac obrub-zaobljeno obrub-tamno pozadina-neutral-srednje padding-bottom-small">

@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { Redirect } from 'react-router-dom';
 
 class DodajStatistiku extends React.Component {
 	constructor(props) {
@@ -43,6 +45,8 @@ class DodajStatistiku extends React.Component {
 	}
 
 	render() {
+		if (Cookies.get('tip') !== '3') return <Redirect to="/" />;
+
 		var osobaIskljucen = this.ProvjeriUnosOsoba() ? '' : 'disabled';
 		var ekipaIskljucen = this.ProvjeriUnosEkipa() ? '' : 'disabled';
 		return (

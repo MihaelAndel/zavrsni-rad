@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import Poruka from '../poruka';
 import { Redirect } from 'react-router-dom';
 
@@ -30,6 +31,9 @@ class DodajOsobu extends React.Component {
 	}
 
 	render() {
+		if (this.state.redirect || Cookies.get('tip') !== '3') {
+			return <Redirect to="/osobe" />;
+		}
 		var iskljucen =
 			(this.state.tip === '1' && this.state.pozicija === '0') ||
 			this.state.tip === '0' ||
@@ -50,9 +54,6 @@ class DodajOsobu extends React.Component {
 				</select>
 			) : null;
 
-		if (this.state.redirect) {
-			return <Redirect to="/osobe" />;
-		}
 		return (
 			<div className="grid">
 				<Poruka poruka={this.state.poruka} />

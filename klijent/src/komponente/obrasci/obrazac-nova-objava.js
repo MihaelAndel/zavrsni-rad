@@ -35,7 +35,7 @@ class ObrazacNovaObjava extends React.Component {
 			(this.state.odabraneEkipe.length !== 0 || this.state.odabraneOsobe.length !== 0)
 				? ''
 				: 'disabled';
-		if (!Cookies.get('korisnik') || Cookies.get('tip') === 1) {
+		if (!Cookies.get('korisnik') || Cookies.get('tip') !== '2' || Cookies.get('tip') !== '3') {
 			return <Redirect to="/" />;
 		} else {
 			if (this.state.stvorena && this.state.id !== null) {
