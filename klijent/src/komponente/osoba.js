@@ -23,7 +23,11 @@ class Osoba extends React.Component {
 					{this.props.pozicija}
 				</span>
 			) : null;
-
+		var gumb = Cookies.get('korisnik') ? (
+			<button disabled={iskljucen} onClick={this.PodesiPracenje}>
+				{tekstGumba}
+			</button>
+		) : null;
 		return (
 			<div>
 				<Link to={`/osobe/${this.props.id}`}>
@@ -51,9 +55,7 @@ class Osoba extends React.Component {
 						{pozicija}
 					</div>
 				</Link>
-				<button disabled={iskljucen} onClick={this.PodesiPracenje}>
-					{tekstGumba}
-				</button>
+				{gumb}
 			</div>
 		);
 	}
@@ -74,6 +76,7 @@ class Osoba extends React.Component {
 					this.setState({
 						prati: !this.state.prati
 					});
+					this.props.dohvati();
 				}
 			});
 	}

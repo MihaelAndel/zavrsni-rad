@@ -2,13 +2,13 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import Poruka from '../poruka';
 
 class ObrazacNovaObjava extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			stvorena: false,
 			id: null,
 			naslov: '',
 			tekst: '',
@@ -35,60 +35,56 @@ class ObrazacNovaObjava extends React.Component {
 			(this.state.odabraneEkipe.length !== 0 || this.state.odabraneOsobe.length !== 0)
 				? ''
 				: 'disabled';
-		if (!Cookies.get('korisnik') || Cookies.get('tip') !== '2' || Cookies.get('tip') !== '3') {
+		if (
+			this.state.redirect ||
+			!Cookies.get('korisnik') ||
+			(Cookies.get('tip') !== '2' && Cookies.get('tip') !== '3')
+		) {
 			return <Redirect to="/" />;
 		} else {
-			if (this.state.stvorena && this.state.id !== null) {
-				return <Redirect to={`/objave/${this.state.id}`} />;
-			} else {
-				return (
-					<form className="grid grid-element">
-						<input
-							type="text"
-							id="naslov"
-							placeholder="Naslov objave"
-							maxLength="80"
-							size="90"
-							value={this.state.naslov}
-							onChange={this.UnesiTekst}></input>
-						<textarea
-							placeholder="Tekst objave (do 1000 znakova)"
-							id="tekst"
-							rows="13"
-							cols="75"
-							maxLength="1000"
-							onChange={this.UnesiTekst}
-							value={this.state.tekst}></textarea>
-						<div className="grid grid-2stupca">
-							<div>
-								<h3>Osobe</h3>
-								<select
-									id="osobe"
-									onChange={this.OznaciOdabrano}
-									size="10"
-									multiple>
-									{this.state.osobe}
-								</select>
-							</div>
-							<div>
-								<h3>Ekipe</h3>
-								<select
-									onChange={this.OznaciOdabrano}
-									id="ekipe"
-									size="10"
-									multiple>
-									{this.state.ekipe}
-								</select>
-							</div>
+			return (
+				<form className="grid grid-element">
+					<Poruka poruka={this.state.poruka} />
+					<input
+						type="text"
+						id="naslov"
+						placeholder="Naslov objave"
+						maxLength="80"
+						size="90"
+						value={this.state.naslov}
+						onChange={this.UnesiTekst}></input>
+					<textarea
+						placeholder="Tekst objave (do 1000 znakova)"
+						id="tekst"
+						rows="13"
+						cols="75"
+						maxLength="1000"
+						onChange={this.UnesiTekst}
+						value={this.state.tekst}></textarea>
+					<div className="grid grid-2stupca">
+						<div className="grid">
+							<h3>Osobe</h3>
+							<select id="osobe" onChange={this.OznaciOdabrano} size="10" multiple>
+								{this.state.osobe}
+							</select>
 						</div>
+						<div className="grid">
+							<h3>Ekipe</h3>
+							<select onChange={this.OznaciOdabrano} id="ekipe" size="10" multiple>
+								{this.state.ekipe}
+							</select>
+						</div>
+					</div>
+					<div className="grid grid-centar">
 						<input
+							className="grid-element-small"
 							onClick={this.Objavi}
 							type="submit"
 							value="Objavi!"
 							disabled={iskljucen}></input>
-					</form>
-				);
-			}
+					</div>
+				</form>
+			);
 		}
 	}
 
@@ -166,9 +162,13 @@ class ObrazacNovaObjava extends React.Component {
 			})
 			.then(rezultat => {
 				if (rezultat.data === 'error') {
-					return;
+					this.setState({ poruka: 'Dogodila se greška, pokušajte ponovno.' });
 				} else {
-					this.setState({ redirect: true });
+					this.setState({ poruka: 'Uspješno objavljena objava!' }, () => {
+						setTimeout(() => {
+							this.setState({ poruka: '', redirect: true });
+						}, 1500);
+					});
 				}
 			});
 	}

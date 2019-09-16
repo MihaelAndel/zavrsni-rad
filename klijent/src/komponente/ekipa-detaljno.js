@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalBarSeries } from 'react-vis';
 
 class EkipaDetaljno extends React.Component {
 	constructor(props) {
@@ -12,6 +13,7 @@ class EkipaDetaljno extends React.Component {
 			sezone: [],
 			statistika: [],
 			utakmice: [],
+			statistikaZaGraf: [],
 			odabranaSezona: ''
 		};
 
@@ -26,7 +28,10 @@ class EkipaDetaljno extends React.Component {
 			return (
 				<div>
 					<div onClick={this.VratiSe} className="blok odbaci prozirno"></div>
-					<div className="grid grid-detaljno detaljno obrub pozadina">
+					<div className="grid grid-detaljno detaljno obrub pozadina scrollable">
+						<button className="izlaz" onClick={this.VratiSe}>
+							Izlaz
+						</button>
 						<h3 className="tekst-center">
 							{this.state.lokacija} {this.state.naziv}
 						</h3>
@@ -113,6 +118,25 @@ class EkipaDetaljno extends React.Component {
 						) : (
 							<div></div>
 						)}
+
+						<br />
+						<br />
+						<br />
+
+						{this.state.odabranaSezona ? (
+							<div className="graf scrollable-x">
+								<h3 className="tekst-center">Poeni po utakmici kroz sezonu</h3>
+								<XYPlot
+									className="obrub pozadina-neutral-svjetlo padding-small"
+									width={800}
+									height={400}>
+									<YAxis tickPadding={0} />
+									<VerticalBarSeries data={this.state.statistikaZaGraf} />
+								</XYPlot>
+							</div>
+						) : (
+							<div></div>
+						)}
 					</div>
 				</div>
 			);
@@ -141,7 +165,6 @@ class EkipaDetaljno extends React.Component {
 
 		if (statistika !== '0') {
 			axios.get(`/api/statistika/dohvati?id=${statistika}`).then(rezultat => {
-				console.log(rezultat);
 				this.setState({
 					statistika: rezultat.data,
 					odabranaSezona: statistika
@@ -151,10 +174,19 @@ class EkipaDetaljno extends React.Component {
 			axios
 				.get(`/api/utakmice/dohvati?sezona=${sezona}&ekipa=${this.state.id}`)
 				.then(rezultat => {
-					console.log(rezultat);
 					if (rezultat.data === 'error') {
 						this.setState({ utakmice: 'error' });
 					} else {
+						var statistikaGraf = this.state.statistikaZaGraf;
+						for (var i = 0; i < rezultat.data.length; i++) {
+							statistikaGraf.push({
+								x: i,
+								y:
+									rezultat.data[i].naziv1 === this.state.naziv
+										? rezultat.data[i].poeniDomacin
+										: rezultat.data[i].poeniGost
+							});
+						}
 						this.setState({ utakmice: rezultat.data });
 					}
 				});

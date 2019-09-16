@@ -268,6 +268,11 @@ select {
 	max-height: 300px;
 }
 
+.scrollable-x {
+	overflow-x: auto;
+	max-width: 100%;
+}
+
 .blok-podaci label {
 	font-size: 85%;
 	font-weight: 400;
@@ -281,6 +286,7 @@ select {
 }
 
 .detaljno {
+	overflow-x: hidden;
 	min-height: 80%;
 	min-width: 80%;
 	box-sizing: border-box;
@@ -339,6 +345,17 @@ select {
 	z-index: 50;
 	width: 100%;
 	height: 100%;
+}
+
+.graf {
+	padding: 10px;
+	margin: auto;
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
+
+.izlaz {
+	position: fixed;
 }
 
 @media only screen and (max-width: 1601px) {

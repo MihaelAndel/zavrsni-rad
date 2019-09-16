@@ -50,7 +50,6 @@ app.get('/api/provjeriKorisnika', (request, response) => {
 
 app.get('/api/ekipe/dohvati', (request, response) => {
 	if (request.query.gost && request.query.domacin) {
-		console.log('tu sam');
 		var domacin = request.query.domacin;
 		var gost = request.query.gost;
 
@@ -300,25 +299,28 @@ app.get('/api/objave/dohvati', (request, response, next) => {
 	if (korisnik) {
 		var sveObjave = [];
 		var sqlOsobe =
-			`SELECT o.datum, o.tekst as tekst, o.naslov as naslov, k.ime as ime, k.prezime as prezime ` +
+			`SELECT o.id as id, o.datum, o.tekst as tekst, o.naslov as naslov, k.ime as ime, k.prezime as prezime ` +
 			`FROM Objava o, Korisnik k ` +
-			`WHERE o.autor = k.id ` +
-			`AND EXISTS (SELECT * FROM OsobaUObjavi, PratiOsobu WHERE o.id = OsobaUObjavi.Objava_id ` +
-			`AND ${korisnik} = PratiOsobu.Korisnik_id) ` +
+			`WHERE o.autor = k.id AND ` +
+			`EXISTS (SELECT * FROM OsobaUObjavi, PratiOsobu, Osoba ` +
+			`WHERE o.id = OsobaUObjavi.Objava_id AND ${korisnik} = PratiOsobu.Korisnik_id AND ` +
+			`PratiOsobu.Osoba_id = Osoba.id AND OsobaUObjavi.Osoba_id = Osoba.id) ` +
 			`ORDER BY 1 DESC LIMIT 25`;
 
 		var sqlEkipe =
-			`SELECT o.datum, o.tekst as tekst, o.naslov as naslov, k.ime as ime, k.prezime as prezime ` +
+			`SELECT o.id as id, o.datum, o.tekst as tekst, o.naslov as naslov, k.ime as ime, k.prezime as prezime ` +
 			`FROM Objava o, Korisnik k ` +
 			`WHERE o.autor = k.id ` +
-			`AND EXISTS (SELECT * FROM EkipaUObjavi, PratiEkipu WHERE o.id = EkipaUObjavi.Objava_id ` +
-			`AND ${korisnik} = PratiEkipu.Korisnik_id) ` +
+			`AND EXISTS (SELECT * FROM EkipaUObjavi, PratiEkipu, Ekipa ` +
+			`WHERE o.id = EkipaUObjavi.Objava_id AND ${korisnik} = PratiEkipu.Korisnik_id AND ` +
+			`PratiEkipu.Ekipa_id = Ekipa.id AND EkipaUObjavi.Ekipa_id = Ekipa.id) ` +
 			`ORDER BY 1 DESC LIMIT 25`;
 
 		baza.Upit(sqlOsobe, (rezultatOsobe, error) => {
 			if (!error) {
 				baza.Upit(sqlEkipe, (rezultatEkipe, error) => {
 					if (!error) {
+						console.log(rezultatEkipe);
 						if (rezultatEkipe.length !== 0 || rezultatOsobe.length !== 0) {
 							sveObjave = sveObjave.concat(rezultatOsobe);
 							for (var i = 0; i < rezultatEkipe.length; i++) {
@@ -332,6 +334,7 @@ app.get('/api/objave/dohvati', (request, response, next) => {
 									sveObjave.push(rezultatEkipe[i]);
 								}
 							}
+							console.log(sveObjave);
 							response.json(sveObjave);
 						} else {
 							var sqlSveObjave =
@@ -370,7 +373,6 @@ app.post('/api/objave/objavi', (request, response) => {
 	var tekst = request.body.tekst;
 	var osobe = request.body.osobe;
 	var ekipe = request.body.ekipe;
-
 	var sqlObjava = `INSERT INTO Objava (autor, naslov, tekst, datum) VALUES(${korisnik}, '${naslov}', '${tekst}', NOW())`;
 	baza.Upit(sqlObjava, (rezultat, error) => {
 		if (!error) {
@@ -379,6 +381,7 @@ app.post('/api/objave/objavi', (request, response) => {
 				for (var i = 0; i < osobe.length; i++) {
 					var sqlOsoba = `INSERT INTO OsobaUObjavi VALUES(${osobe[i]}, ${objavaID})`;
 					baza.Upit(sqlOsoba, (rezultat, error) => {
+						console.log('tu');
 						if (error) {
 							response.json('error');
 						}
@@ -395,6 +398,7 @@ app.post('/api/objave/objavi', (request, response) => {
 					});
 				}
 			}
+			response.json('ok');
 		} else {
 			response.json('error');
 		}
@@ -633,19 +637,23 @@ app.get('/api/nagrade/dohvati', (request, response) => {
 });
 
 app.post('/api/nagrade/dodaj', (request, response) => {
-	var nagrada = request.body.nagrada;
+	var nagrade = request.body.nagrade;
 	var igrac = request.body.igrac;
 	var sezona = request.body.sezona;
 
-	var sql = `INSERT INTO Nagrada (vrstaNagrade, osoba, sezona) VALUES(${nagrada}, ${igrac}, ${sezona})`;
+	for (var i = 0; i < nagrade.length; i++) {
+		var sql = `INSERT INTO Nagrada (vrstaNagrade, osoba, sezona) VALUES(${nagrade[i]}, ${igrac}, ${sezona})`;
 
-	baza.Upit(sql, (rezultat, error) => {
-		if (!error) {
-			response.json('ok');
-		} else {
-			response.json('error');
-		}
-	});
+		baza.Upit(sql, (rezultat, error) => {
+			if (error) {
+				response.json('error');
+				return;
+			}
+		});
+	}
+	setTimeout(() => {
+		response.json('ok');
+	}, 1000);
 });
 
 app.get('*', (request, response) => {

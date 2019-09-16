@@ -15,12 +15,23 @@ class Ekipe extends React.Component {
 			ekipePrikaz: []
 		};
 
-		this.DohvatiEkipe();
-
+		this.DohvatiEkipe = this.DohvatiEkipe.bind(this);
 		this.PretraziEkipe = this.PretraziEkipe.bind(this);
+		this.PrikaziSve = this.PrikaziSve.bind(this);
+		this.PrikaziPratim = this.PrikaziPratim.bind(this);
+		this.PrikaziNePratim = this.PrikaziNePratim.bind(this);
+
+		this.DohvatiEkipe();
 	}
 
 	render() {
+		var filtriranje = Cookies.get('korisnik') ? (
+			<div>
+				<button onClick={this.PrikaziSve}>Prikaži sve</button>
+				<button onClick={this.PrikaziPratim}>Pratim</button>
+				<button onClick={this.PrikaziNePratim}>Ne pratim</button>
+			</div>
+		) : null;
 		if (this.state.listaEkipa.length === 0) {
 			return <Ucitavanje />;
 		} else {
@@ -34,8 +45,13 @@ class Ekipe extends React.Component {
 							placeholder="Pretraživanje"
 						/>
 					</div>
-					<PopisEkipa putanja={this.props.match.url} lista={this.state.ekipePrikaz} />
-					<Route path="/ekipe/:id/:prati" component={EkipaDetaljno} />
+					{filtriranje}
+					<PopisEkipa
+						dohvati={this.DohvatiEkipe}
+						putanja={this.props.match.url}
+						lista={this.state.ekipePrikaz}
+					/>
+					<Route path="/ekipe/:id" component={EkipaDetaljno} />
 				</div>
 			);
 		}
@@ -43,18 +59,24 @@ class Ekipe extends React.Component {
 
 	DohvatiEkipe() {
 		var korisnik = Cookies.get('id') ? Cookies.get('id') : '';
-		if (this.state.listaEkipa.length === 0) {
-			axios.get(`/api/ekipe/dohvati?korisnik=${korisnik}`).then(response => {
-				var ekipe = response.data;
-				ekipe.forEach(ekipa => {
-					ekipa.pretrazi = `${ekipa.naziv} ${ekipa.lokacija} ${ekipa.arena}`;
-				});
-				this.setState({
-					listaEkipa: ekipe,
-					ekipePrikaz: ekipe
-				});
+		axios.get(`/api/ekipe/dohvati?korisnik=${korisnik}`).then(response => {
+			var ekipe = response.data;
+			ekipe.forEach(ekipa => {
+				ekipa.pretrazi = `${ekipa.naziv} ${ekipa.lokacija} ${ekipa.arena}`;
 			});
-		}
+			this.setState(
+				{
+					listaEkipa: ekipe
+				},
+				() => {
+					if (this.state.ekipePrikaz.length === 0) {
+						this.setState({
+							ekipePrikaz: ekipe
+						});
+					}
+				}
+			);
+		});
 	}
 
 	PretraziEkipe(e) {
@@ -75,6 +97,36 @@ class Ekipe extends React.Component {
 		}
 
 		this.setState({ ekipePrikaz: ekipeZaPrikaz });
+	}
+
+	PrikaziSve() {
+		this.setState({ ekipePrikaz: this.state.listaEkipa });
+	}
+
+	PrikaziPratim() {
+		var prikaz = [];
+		for (var i = 0; i < this.state.listaEkipa.length; i++) {
+			if (this.state.listaEkipa[i].prati) {
+				prikaz.push(this.state.listaEkipa[i]);
+			}
+		}
+
+		this.setState({
+			ekipePrikaz: prikaz
+		});
+	}
+
+	PrikaziNePratim() {
+		var prikaz = [];
+		for (var i = 0; i < this.state.listaEkipa.length; i++) {
+			if (!this.state.listaEkipa[i].prati) {
+				prikaz.push(this.state.listaEkipa[i]);
+			}
+		}
+
+		this.setState({
+			ekipePrikaz: prikaz
+		});
 	}
 }
 

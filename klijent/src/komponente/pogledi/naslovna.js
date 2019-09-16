@@ -19,7 +19,7 @@ class Naslovna extends React.Component {
 			return <Ucitavanje></Ucitavanje>;
 		} else {
 			return (
-				<div className="grid grid-4stupca">
+				<div className="grid">
 					{this.state.objave.map(objava => (
 						<div
 							key={objava.id}

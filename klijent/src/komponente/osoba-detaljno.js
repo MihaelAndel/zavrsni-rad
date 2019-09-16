@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalBarSeries } from 'react-vis';
 
 class OsobaDetaljno extends React.Component {
 	constructor(props) {
@@ -12,6 +13,16 @@ class OsobaDetaljno extends React.Component {
 			sezone: [],
 			statistika: [],
 			nagrade: [],
+			statistikaZaGraf: [],
+			statistikaProsjek: [
+				{ x: 'poeni', y: 11.4 },
+				{ x: 'asistencije', y: 2.5 },
+				{ x: 'skokovi', y: 8.2 },
+				{ x: 'blokovi', y: 0.9 },
+				{ x: 'ukradene lopte', y: 1.1 },
+				{ x: '% koševi', y: 52.3 },
+				{ x: '% trice', y: 31.2 }
+			],
 			odabranaSezona: ''
 		};
 
@@ -28,6 +39,9 @@ class OsobaDetaljno extends React.Component {
 				<div>
 					<div onClick={this.VratiSe} className="blok odbaci prozirno"></div>
 					<div className=" scrollable grid grid-detaljno detaljno obrub pozadina">
+						<button className="izlaz" onClick={this.VratiSe}>
+							Izlaz
+						</button>
 						<h3 className="tekst-center">
 							{this.state.ime} {this.state.prezime}
 						</h3>
@@ -96,6 +110,32 @@ class OsobaDetaljno extends React.Component {
 						) : (
 							<div></div>
 						)}
+						{this.state.odabranaSezona ? (
+							<div className="graf scrollable-x">
+								<h3 className="tekst-center">Usporedba statistike</h3>
+								<h4 className="tekst-center">
+									prosjek = narančasta | igrač = zelena
+								</h4>
+								<XYPlot
+									xType="ordinal"
+									className="obrub pozadina-neutral-svjetlo padding-small"
+									width={1000}
+									height={400}>
+									<YAxis tickTotal={5} tickPadding={0} />
+									<XAxis />
+									<VerticalBarSeries
+										data={this.state.statistikaProsjek}
+										color="orange"
+									/>
+									<VerticalBarSeries
+										data={this.state.statistikaZaGraf}
+										color="green"
+									/>
+								</XYPlot>
+							</div>
+						) : (
+							<div></div>
+						)}
 					</div>
 				</div>
 			);
@@ -132,9 +172,19 @@ class OsobaDetaljno extends React.Component {
 
 		if (statistika !== '0') {
 			axios.get(`/api/statistika/dohvati?id=${statistika}`).then(rezultat => {
+				var statistikaGraf = [];
+				statistikaGraf.push({ x: 'poeni', y: rezultat.data.poeni });
+				statistikaGraf.push({ x: 'asistencije', y: rezultat.data.asistencije });
+				statistikaGraf.push({ x: 'skokovi', y: rezultat.data.skokovi });
+				statistikaGraf.push({ x: 'blokovi', y: rezultat.data.blokovi });
+				statistikaGraf.push({ x: 'ukradene lopte', y: rezultat.data.ukradeneLopte });
+				statistikaGraf.push({ x: '% koševi', y: rezultat.data.postotakPogodaka });
+				statistikaGraf.push({ x: '% trice', y: rezultat.data.postotakTrica });
+
 				this.setState({
 					statistika: rezultat.data,
-					odabranaSezona: statistika
+					odabranaSezona: statistika,
+					statistikaZaGraf: statistikaGraf
 				});
 			});
 			axios

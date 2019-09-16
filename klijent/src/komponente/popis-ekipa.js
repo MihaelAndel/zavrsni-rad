@@ -44,6 +44,7 @@ class PopisEkipa extends React.Component {
 				<div className="grid grid-repeat-red grid-4stupca">
 					{this.props.lista.map(ekipa => (
 						<Ekipa
+							dohvati={this.props.dohvati}
 							key={ekipa.id}
 							id={ekipa.id}
 							naziv={ekipa.naziv}

@@ -13,27 +13,41 @@ class DodijeliNagrade extends React.Component {
 			listaIgraca: [],
 			igracID: '0',
 			listaNagrada: [],
-			nagradaID: '0',
 			redirect: false,
-			poruka: ''
+			poruka: '',
+			mvp: false,
+			dpoy: false,
+			roty: false,
+			mip: false,
+			man6: false,
+			allStar: false
 		};
 
 		this.DohvatiIgrace();
 
 		this.OdaberiIgraca = this.OdaberiIgraca.bind(this);
-		this.OdaberiNagradu = this.OdaberiNagradu.bind(this);
+		this.ObradiUnos = this.ObradiUnos.bind(this);
 		this.OdaberiSezonu = this.OdaberiSezonu.bind(this);
 		this.DodajNagradu = this.DodajNagradu.bind(this);
 	}
 	render() {
+		console.log(this.state);
 		if (Cookies.get('tip') !== '3' || this.state.redirect) return <Redirect to="/" />;
 		var iskljucen =
-			this.state.sezona === '' || this.state.igracID === '0' || this.state.nagradaID === '0'
+			this.state.sezona === '' ||
+			this.state.igracID === '0' ||
+			(this.state.mvp === false &&
+				this.state.dpoy === false &&
+				this.state.roty === false &&
+				this.state.mip === false &&
+				this.state.man6 === false &&
+				this.state.allStar === false)
 				? 'disabled'
 				: '';
 		return (
 			<div className="grid grid-centar">
 				<Poruka poruka={this.state.poruka} />
+				<h2>Dodijela nagrada</h2>
 				<form className="grid grid-element-small">
 					<select onChange={this.OdaberiIgraca}>
 						<option key="0" value="0">
@@ -51,18 +65,18 @@ class DodijeliNagrade extends React.Component {
 						type="number"
 						min="2000"
 					/>
-					{this.state.listaNagrada.length > 0 ? (
-						<select onChange={this.OdaberiNagradu}>
-							<option key="0" value="0">
-								Odaberite nagradu
-							</option>
-							{this.state.listaNagrada.map(nagrada => (
-								<option key={nagrada.id} value={nagrada.id}>
-									{nagrada.naziv}
-								</option>
-							))}
-						</select>
-					) : null}
+					{this.state.listaNagrada.length > 0
+						? this.state.listaNagrada.map(nagrada => (
+								<div key={nagrada.id}>
+									<label>{nagrada.naziv}</label>
+									<input
+										type="checkbox"
+										id={nagrada.id}
+										onChange={this.ObradiUnos}
+									/>
+								</div>
+						  ))
+						: null}
 					<input
 						onClick={this.DodajNagradu}
 						disabled={iskljucen}
@@ -119,19 +133,19 @@ class DodijeliNagrade extends React.Component {
 		}
 	}
 
-	OdaberiNagradu(e) {
-		e.preventDefault();
-		this.setState({
-			nagradaID: e.target.value
-		});
-	}
-
 	DodajNagradu(e) {
 		e.preventDefault();
+		var odabraneNagrade = [];
+		if (this.state.mvp) odabraneNagrade.push(1);
+		if (this.state.dpoy) odabraneNagrade.push(2);
+		if (this.state.roty) odabraneNagrade.push(3);
+		if (this.state.mip) odabraneNagrade.push(4);
+		if (this.state.man6) odabraneNagrade.push(5);
+		if (this.state.allStar) odabraneNagrade.push(6);
 
 		axios
 			.post('/api/nagrade/dodaj', {
-				nagrada: this.state.nagradaID,
+				nagrade: odabraneNagrade,
 				igrac: this.state.igracID,
 				sezona: this.state.sezona
 			})
@@ -146,13 +160,47 @@ class DodijeliNagrade extends React.Component {
 						}
 					);
 				} else {
-					this.setState({ poruka: 'Uspješno dodjeljena nagrada!' }, () => {
+					this.setState({ poruka: 'Uspješno dodjeljena nagrada!', igracID: '0' }, () => {
 						setTimeout(() => {
 							this.setState({ poruka: '', redirect: true });
 						}, 2000);
 					});
 				}
 			});
+	}
+
+	ObradiUnos(e) {
+		console.log('tu sam');
+		var id = e.target.id;
+		console.log(id);
+		switch (id) {
+			case '1':
+				this.setState({ mvp: !this.state.mvp });
+				break;
+
+			case '2':
+				this.setState({ dpoy: !this.state.dpoy });
+				break;
+
+			case '3':
+				this.setState({ roty: !this.state.roty });
+				break;
+
+			case '4':
+				this.setState({ mip: !this.state.mip });
+				break;
+
+			case '5':
+				this.setState({ man6: !this.state.man6 });
+				break;
+
+			case '6':
+				this.setState({ allStar: !this.state.allStar });
+				break;
+
+			default:
+				return;
+		}
 	}
 }
 

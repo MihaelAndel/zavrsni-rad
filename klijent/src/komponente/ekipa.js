@@ -10,7 +10,6 @@ class Ekipa extends React.Component {
 			prati: props.prati,
 			id: props.id
 		};
-
 		this.PodesiPracenje = this.PodesiPracenje.bind(this);
 	}
 
@@ -18,6 +17,12 @@ class Ekipa extends React.Component {
 		var tekstGumb = this.state.prati ? 'Prestani pratiti' : 'Počni pratiti';
 		var iskljucen = Cookies.get('korisnik') ? '' : 'disabled';
 		var klasa = this.props.klasa;
+
+		var gumb = Cookies.get('korisnik') ? (
+			<button disabled={iskljucen} onClick={this.PodesiPracenje}>
+				{tekstGumb}
+			</button>
+		) : null;
 
 		if (this.props.utakmica) {
 			return (
@@ -47,7 +52,7 @@ class Ekipa extends React.Component {
 		} else {
 			return (
 				<div>
-					<Link to={`/ekipe/${this.props.id}/${this.state.prati}`} key={this.props.id}>
+					<Link to={`/ekipe/${this.props.id}`} key={this.props.id}>
 						<div
 							className="grid-element ekipa blok-podaci obrub-tamno obrub-zaobljeno pozadina"
 							id={this.props.id}>
@@ -66,9 +71,7 @@ class Ekipa extends React.Component {
 							<br />
 						</div>
 					</Link>
-					<button disabled={iskljucen} onClick={this.PodesiPracenje}>
-						{tekstGumb}
-					</button>
+					{gumb}
 				</div>
 			);
 		}
@@ -86,6 +89,7 @@ class Ekipa extends React.Component {
 			.then(response => {
 				if (response.data === 'ok') {
 					this.setState({ prati: !this.state.prati });
+					this.props.dohvati();
 				}
 			});
 	}

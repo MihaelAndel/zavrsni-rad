@@ -6,6 +6,7 @@ function PopisOsoba(props) {
 		<div className="grid gri-repeat-red grid-4stupca">
 			{props.lista.map(osoba => (
 				<Osoba
+					dohvati={props.dohvati}
 					id={osoba.id}
 					key={osoba.id}
 					ime={osoba.ime}

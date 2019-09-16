@@ -15,12 +15,24 @@ class Ekipe extends React.Component {
 			osobePrikaz: []
 		};
 
-		this.DohvatiOsobe();
+		this.DohvatiOsobe = this.DohvatiOsobe.bind(this);
 
 		this.PretraziOsobe = this.PretraziOsobe.bind(this);
+		this.PrikaziSve = this.PrikaziSve.bind(this);
+		this.PrikaziPratim = this.PrikaziPratim.bind(this);
+		this.PrikaziNePratim = this.PrikaziNePratim.bind(this);
+
+		this.DohvatiOsobe();
 	}
 
 	render() {
+		var filtriranje = Cookies.get('korisnik') ? (
+			<div>
+				<button onClick={this.PrikaziSve}>Prikaži sve</button>
+				<button onClick={this.PrikaziPratim}>Pratim</button>
+				<button onClick={this.PrikaziNePratim}>Ne pratim</button>
+			</div>
+		) : null;
 		if (this.state.listaOsoba.length === 0) {
 			return <Ucitavanje />;
 		} else {
@@ -34,7 +46,8 @@ class Ekipe extends React.Component {
 							placeholder="Pretraživanje"
 						/>
 					</div>
-					<PopisOsoba lista={this.state.osobePrikaz} />
+					{filtriranje}
+					<PopisOsoba dohvati={this.DohvatiOsobe} lista={this.state.osobePrikaz} />
 					<Route path="/osobe/:id" component={OsobaDetaljno} />
 				</div>
 			);
@@ -43,20 +56,24 @@ class Ekipe extends React.Component {
 
 	DohvatiOsobe() {
 		var korisnik = Cookies.get('id') ? Cookies.get('id') : '';
-		if (this.state.listaOsoba.length === 0) {
-			axios.get(`/api/osobe/dohvati?korisnik=${korisnik}`).then(response => {
-				var osobe = response.data;
+		axios.get(`/api/osobe/dohvati?korisnik=${korisnik}`).then(response => {
+			var osobe = response.data;
 
-				osobe.forEach(osoba => {
-					osoba.pretrazi = osoba.ime + ' ' + osoba.prezime + ' ' + osoba.ekipa;
-				});
-
-				this.setState({
-					listaOsoba: osobe,
-					osobePrikaz: osobe
-				});
+			osobe.forEach(osoba => {
+				osoba.pretrazi = osoba.ime + ' ' + osoba.prezime + ' ' + osoba.ekipa;
 			});
-		}
+
+			this.setState(
+				{
+					listaOsoba: osobe
+				},
+				() => {
+					if (this.state.osobePrikaz.length === 0) {
+						this.setState({ osobePrikaz: osobe });
+					}
+				}
+			);
+		});
 	}
 
 	PretraziOsobe(e) {
@@ -77,6 +94,36 @@ class Ekipe extends React.Component {
 		}
 
 		this.setState({ osobePrikaz: osobeZaPrikaz });
+	}
+
+	PrikaziSve() {
+		this.setState({ osobePrikaz: this.state.listaOsoba });
+	}
+
+	PrikaziPratim() {
+		var prikaz = [];
+		for (var i = 0; i < this.state.listaOsoba.length; i++) {
+			if (this.state.listaOsoba[i].prati) {
+				prikaz.push(this.state.listaOsoba[i]);
+			}
+		}
+
+		this.setState({
+			osobePrikaz: prikaz
+		});
+	}
+
+	PrikaziNePratim() {
+		var prikaz = [];
+		for (var i = 0; i < this.state.listaOsoba.length; i++) {
+			if (!this.state.listaOsoba[i].prati) {
+				prikaz.push(this.state.listaOsoba[i]);
+			}
+		}
+
+		this.setState({
+			osobePrikaz: prikaz
+		});
 	}
 }
 
